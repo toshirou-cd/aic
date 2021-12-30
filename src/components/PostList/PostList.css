@@ -1,0 +1,36 @@
+.postListWrapper {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 200px 200px 200px 200px 200px;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+.postItem {
+  position: relative;
+  cursor: pointer;
+  box-shadow: 1px 1px 15px -15px rgba(0, 0, 0, 0.8);
+}
+
+.postDescription {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: rgba(255, 233, 219, 0.7);
+  color: #fff;
+  visibility: hidden;
+  opacity: 0;
+  transition: 500ms;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 35px;
+}
+
+.postItem:hover .postDescription {
+  visibility: visible;
+  opacity: 1;
+}

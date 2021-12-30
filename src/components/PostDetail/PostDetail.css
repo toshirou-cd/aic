@@ -1,0 +1,72 @@
+.classWrapper {
+  display: flex;
+  flex-direction: row;
+  row-gap: 20px;
+  background-color: white;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.8);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.8);
+  position: relative;
+}
+.showImg {
+  width: 500px;
+  height: 600px;
+  object-fit: contain;
+  border: none;
+  border-radius: 10px;
+}
+.infoWrapper {
+  margin-left: 20px;
+  width: 350px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  padding-right: 10px;
+}
+.detailWrapper {
+  display: grid;
+  grid-template-columns: 350px;
+  grid-template-rows: 50px 50px;
+  row-gap: 0.5rem;
+}
+
+.toolWrapper {
+  display: flex;
+  justify-content: left;
+  padding: 0;
+}
+.showUserName {
+  font-size: 20px;
+  font-weight: 540;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  font-family: "Roboto", serif;
+  color: rgba(0, 0, 0, 0.87);
+}
+.userListImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+.showAccountName {
+  font-size: 15px;
+  font-weight: 200;
+  margin-bottom: 10px;
+  padding-left: 10px;
+}
+.toolButton {
+  position: absolute;
+  top: 0px;
+  right: 5px;
+}
+.showUserDescription {
+  padding-left: 10px;
+  font-style: italic;
+  font-size: 20px;
+  font-weight: 350;
+}
+.commentWrapper {
+}

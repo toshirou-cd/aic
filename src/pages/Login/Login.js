@@ -1,0 +1,141 @@
+import React, { useState } from "react";
+import {
+  Grid,
+  Paper,
+  Avatar,
+  TextField,
+  Button,
+  Typography,
+  Link,
+} from "@material-ui/core";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import { makeStyles } from "@material-ui/core";
+import  authService  from "../../services/auth/";
+import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { LoginFail, LoginSuccess } from "../../redux/actions/authActions";
+import backgroundImg from '../../asset/image/login_background.png'
+const useStyle = makeStyles({
+    bgWrapper : {
+      height :'100vh',
+      width:'100%',
+      backgroundImage: backgroundImg,
+      zIndex : '99'
+    }
+})
+
+
+const Login = () => {
+  
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const history = useHistory();
+  const dispatch = useDispatch()
+
+  const style = useStyle()
+  const paperStyle = {
+    opacity: '85%',
+    padding: 20,
+    height: "70vh",
+    width: 280,
+    margin: "20px auto",
+  };
+  const avatarStyle = { backgroundColor: "#E54240" };
+  const btnstyle = { 
+    margin: "8px 0" , 
+    color:"##FF1700"};
+  const styles = {
+    heroContainer: {
+      backgroundImage: `url(${backgroundImg})`,
+      backgroundSize: '100% 100%',
+      backgroundPosition: 'center',
+      width: '100%',
+      height: 'auto',
+      margin: -20,
+      padding: 20,
+      minHeight: '100%',
+      minWidth: '1024px',
+      position: 'fixed',
+      top: 0,
+  left: 0,
+    }
+   };
+
+
+
+  const handleLoggin = (e) => {
+    e.preventDefault()
+    setLoading(true)
+    authService.Login(username,password).then(
+      (data) => {
+        // const tmpUser = ({avatar,phone, role, email , userName}) => {}
+        dispatch(LoginSuccess(data.user))
+        history.push('/admin')
+      }
+    ).catch((err) => {
+      setLoading(false)
+      dispatch(LoginFail())
+
+      console.log('login failed', err)
+    })
+  }
+
+  return (
+    <div style={styles.heroContainer}>
+     <Grid >
+        <Paper elevation={12} style={paperStyle}>
+          <Grid align="center">
+            <Avatar style={avatarStyle}>
+              <AdminPanelSettingsIcon />
+            </Avatar>
+            <h2>Admin Login</h2>
+            
+          </Grid>
+          <TextField
+            label="Username"
+            placeholder="Enter username"
+            fullWidth
+            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            />
+          <br/>
+          <TextField
+            id="outlined-name"
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            fullWidth
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <FormControlLabel
+            control={<Checkbox name="checkedB" color="primary" />}
+            label="Remember me"
+            />
+          <Button
+            type="submit"
+            color="secondary"
+            variant="contained"
+            style={btnstyle}
+            fullWidth
+            loading={loading}
+            onClick={(e) => handleLoggin(e)}
+            >
+            Sign in
+          </Button>
+          <Typography>
+            <Link href="#">Forgot password ?</Link>
+          </Typography>
+        </Paper>
+      </Grid> 
+    </div>
+  );
+};
+
+export default Login;

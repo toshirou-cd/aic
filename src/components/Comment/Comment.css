@@ -1,0 +1,28 @@
+    .commentWrapper{
+        background-color: white;
+        padding: 0px 5px 0px 5px;
+        display: grid;
+        grid-template-rows: 25px subgrid 25px;
+        grid-template-columns: 340px;
+        row-gap: 5px;
+    }
+    
+    .contentWrapper{
+        font-weight: 350;
+        border-bottom: 1px solid #cfcfcf;
+        border-radius: 5px;
+        padding: 5px;
+        margin: 0;
+    }
+    .comentDetail{
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        color: rgb(192, 192, 192);
+        padding-left: 10px;
+        display: flex;
+    }
+    .icon{
+        height: 10px;
+        width: 10px;
+    }

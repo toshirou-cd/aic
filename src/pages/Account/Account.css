@@ -1,0 +1,35 @@
+.userListUser {
+    display: flex;
+    align-items: center;
+}
+.userListImg{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+.detailButton{
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: rgb(255, 134, 64);
+    color: white;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.MuiDataGrid-columnHeaderTitle{
+    border: none;
+    border-radius: 10px;
+    color: rgb(0, 0, 0);
+    font-size: 15px;;
+}
+.MuiDataGrid-columnsPanel{
+    background-color: #000;
+}
+.MuiDataGrid-root .MuiDataGrid-row.Mui-selected:hover{
+    background-color: #000;
+}
+.MuiDataGrid-root .MuiDataGrid-row.Mui-selected{
+    background-color: #000;
+}
