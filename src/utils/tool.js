@@ -1,23 +1,37 @@
-import React from 'react'
+import React from "react";
 
 export const convertDateTime = (dateS) => {
-    const date = new Date(dateS)
-    const year = date.getFullYear()
-    const month = date.getMonth()
-    const day = date.getDate()
-    const hours  = date.getHours()
-    const minutes = date.getMinutes()
-    const second = date.getSeconds()
-    let dateTime;
-    return dateTime = day + '/' + month + '/' + year + ', ' + hours +':' + minutes + ':' + second
-}
+  const zerofill= (i) => {
+    return (i < 10 ? '0' : '') + i;
+  }
 
-export const handleHistory = ( history) => {
-    switch(history) {
-        case history < 24 : return history.toString().split(".")[0]
-        case history > 24 && history < 720 : return `${parseInt(history/24)} days ago`
-        case history > 720 && history < 8640 : return `${parseInt(history/720)} months ago`
-        default : return `${parseInt(history/720)} months ago`
-    }
-}
+  const date = new Date(dateS);
+  const year = date.getFullYear();
+  const month = zerofill(date.getMonth()+1);
+    const day = zerofill(date.getDate());
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const second = date.getSeconds();
+  let dateTime;
+  return (dateTime =
+    day +
+    "/" +
+    month +
+    "/" +
+    year )
+    // +
+    // ", " +
+    // hours +
+    // ":" +
+    // minutes +
+    // ":" +
+    // second);
+};
 
+export const handleHistory = (history) => {
+  const time = parseInt(history);
+
+  if (time < 24) return `${history.toString().split(".")[0]} hours ago`;
+  if (time > 24 && time < 720) return `${parseInt(time / 24)} days ago`;
+  if (time > 720 && time < 8640) return `${parseInt(time / 720)} months ago`;
+};

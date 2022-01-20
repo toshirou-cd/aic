@@ -32,7 +32,7 @@ const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-
+  const [error, setError] = useState('')
   const history = useHistory();
   const dispatch = useDispatch()
 
@@ -72,15 +72,16 @@ const Login = () => {
     setLoading(true)
     authService.Login(username,password).then(
       (data) => {
-        // const tmpUser = ({avatar,phone, role, email , userName}) => {}
-        dispatch(LoginSuccess(data.user))
-        history.push('/admin')
+        if(data.statusCode === 200) {
+          dispatch(LoginSuccess(data.user))
+          setLoading(false)
+          history.push('/admin')
+        } 
       }
-    ).catch((err) => {
+      ).catch((err) => {
       setLoading(false)
+      setError('Your username and spassword is invalid ')
       dispatch(LoginFail())
-
-      console.log('login failed', err)
     })
   }
 
@@ -95,6 +96,7 @@ const Login = () => {
             <h2>Admin Login</h2>
             
           </Grid>
+          <form >
           <TextField
             label="Username"
             placeholder="Enter username"
@@ -124,12 +126,14 @@ const Login = () => {
             variant="contained"
             style={btnstyle}
             fullWidth
-            loading={loading}
+            disabled={loading}
             onClick={(e) => handleLoggin(e)}
             >
             Sign in
           </Button>
-          <Typography>
+          </form>
+          { error && <span style={{color:'red', fontSize:'12px'}}> {error}</span>}
+          <Typography>  
             <Link href="#">Forgot password ?</Link>
           </Typography>
         </Paper>

@@ -28,6 +28,7 @@ const PostDetailPopUp = (props) => {
                         paper: classes.dialogWrapper,
                         paperScrollPaper:  classes.scrollPaper
                     }}  
+                    disableEnforceFocus
                     >
             {/* <DialogTitle>
                 Post Detail

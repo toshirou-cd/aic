@@ -1,3 +1,4 @@
+import { useHistory } from "react-router-dom";
 import { LOGIN_SUCCESS,LOGIN_FAIL,LOGOUT} from "../../utils/types";
 
 const user = JSON.parse(localStorage.getItem("user")|| "{}")
@@ -17,6 +18,8 @@ const initialState  = {
     isLoggedIn : tmpUser !== null ? true : false,
 }
  export const AuthReducer = (state = initialState ,action)  => {
+
+
     switch(action.type) {
         case LOGIN_SUCCESS : 
             return {

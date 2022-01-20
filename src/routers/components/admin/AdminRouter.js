@@ -24,6 +24,12 @@ import CardGiftcardOutlinedIcon from '@mui/icons-material/CardGiftcardOutlined';
 import RouterRender from "../../RouterRender";
 import ProfileMenu from "../../../components/ProfileMenu.js/ProfileMenu";
 import UserProfile from "../../../pages/UserProfile/UserProfile";
+import Posts from "../../../pages/Posts/Posts";
+import PostDetailPage from "../../../pages/PostDetailPage/PostDetailPage";
+import ReportedPost from "../../../pages/ReportedPost/ReportedPost";
+import ReportDetail from "../../../pages/ReportDetail/ReportDetail";
+import Contest from "../../../pages/Contest/Contest";
+import ContestDetail from "../../../pages/ContestDetail/ContestDetail";
 
 export const sideBarItems = [  
     {
@@ -74,6 +80,37 @@ const routes= [
   {
     component: Account,
     path: '/account',
+    isPrivate: true
+  },
+  {
+    component: PostDetailPage,
+    path: '/posts/:postId',
+    isPrivate: true,
+    exact: true
+  },
+  {
+    component: Posts,
+    path: '/posts',
+    isPrivate: true
+  },
+  {
+    component: ReportDetail,
+    path: '/reportedposts/:reportId',
+    isPrivate: true
+  },
+  {
+    component: ReportedPost,
+    path: '/reportedposts',
+    isPrivate: true
+  },
+  {
+    component: ContestDetail,
+    path: '/contest/:contestId',
+    isPrivate: true
+  },
+  {
+    component: Contest,
+    path: '/contest',
     isPrivate: true
   },
 

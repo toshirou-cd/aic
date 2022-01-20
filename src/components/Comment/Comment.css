@@ -5,6 +5,16 @@
         grid-template-rows: 25px subgrid 25px;
         grid-template-columns: 340px;
         row-gap: 5px;
+        padding-bottom: 10px;
+        position:relative;
+    }
+    .deleteButton{
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        height: 15px;
+        width: 15px;
+        margin-right: 10px;
     }
     
     .contentWrapper{

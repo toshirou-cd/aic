@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import altAvatar from "../../asset/image/image.png";
 import accountService from "../../services/account";
@@ -7,10 +7,15 @@ import BASE_URL from "../../utils/Url";
 import { convertDateTime } from "../../utils/tool";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, Input, Paper, Stack } from "@mui/material";
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
-import { makeStyles, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { getMessageCode } from "../../utils/contanst";
+import SearchIcon from '@mui/icons-material/Search';
+import { searchAccount } from "../../services/account/account";
+import { useAccountSearch }from "../../hooks/useAccountSearch";
+import { Box, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
+
 
 const useStyle = makeStyles({
   rowSelected: {
@@ -21,25 +26,24 @@ const useStyle = makeStyles({
         },
       },
     },
-    title: {
-      fontSize: 40,
-      fontWeight: "bold",
-      color: "blue",
-      border: "none",
-      boderRadius: "10px",
-      margin: "10 0 10 0 ",
-      backgroundColor: " red",
-      padding: 10,
-    },
+
+    height: "100%",
   },
+  
 });
 
 const Account = (props) => {
   // let rows = [];
-  const [account, setAccount] = useState([]);
   const history = useHistory();
   const path = history.pathName;
   const style = useStyle();
+  const [searchName, setsearchName] = useState('')
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(5)
+  const [status, setStatus] = useState(0)
+  const [pageSizeOption, setPageSizeOption] = useState([5,10,15])
+  const [searchInput, setSearchInput] = useState('')
+  const typingTimeoutRef = useRef(null)
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
     { field: "user_name", headerName: "Account name", width: 180 },
@@ -53,7 +57,7 @@ const Account = (props) => {
             <img
               className="userListImg"
               src={
-                params.row.avatar_url === null
+                params.row.avata_url === null
                   ? altAvatar
                   : `${BASE_URL.getAvatar}/${params.row.avata_url}`
               }
@@ -69,13 +73,9 @@ const Account = (props) => {
       headerName: "Day Create ",
       type: "dateTime",
       width: 230,
-      renderCell : (params) => {
-        return (
-          <>
-            {convertDateTime(params.row.date_create)}
-          </>
-        )
-      }
+      renderCell: (params) => {
+        return <>{convertDateTime(params.row.date_create)}</>;
+      },
     },
     {
       field: "status",
@@ -83,12 +83,8 @@ const Account = (props) => {
       sortable: false,
       width: 100,
       renderCell: (params) => {
-        return (
-          <>
-            {getMessageCode(params.row.status)}
-          </>
-        )
-      }
+        return <>{getMessageCode(params.row.status)}</>;
+      },
     },
     {
       field: "action",
@@ -99,9 +95,14 @@ const Account = (props) => {
         return (
           <div>
             <Link to={`${props.match.url}/${params.row.id}`}>
-            <button className="detailButton" >Detail</button>
+              <button
+                className="detailButton"
+                // disabled={true}
+              >
+                Detail
+              </button>
             </Link>
-            <IconButton aria-label="delete" >
+            <IconButton aria-label="delete">
               <PowerSettingsNewOutlinedIcon />
             </IconButton>
           </div>
@@ -110,35 +111,145 @@ const Account = (props) => {
     },
   ];
 
+  const {
+    accounts,
+    totalRow,
+    loading
+  } =  useAccountSearch(searchName,status,pageSize,page)
 
 
-
-  useEffect(() => {
-    accountService.getAccountList(5).then((value) => {
-      console.log('acct :' + value)
-      return setAccount(value);
-    });
+  // handle search 
+  const handleSearchNameChange = (e) => {
+    setSearchInput(e.target.value)
     
-  }, []);
+    if( typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current)
+    }
+    
+    typingTimeoutRef.current = setTimeout(() => {
+      setsearchName(e.target.value)
+    },300)
+  }
+
+
+  //handle select status 
+  const handleSelectStatus = (e) => {
+    setStatus(e.target.value)
+  }
 
   return (
     <div
       style={{
-        height: 400,
-        width: '100%',
+        height: "80%",
+        width: "100%",
         backgroundColor: "white",
         padding: "0 10 0 10",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      <h3 className={style.title}>User List</h3>
+      <div className="header">
+        <h3 className='title'>Showing User List by </h3>
+        <div style={{flexGrow : 99}}>
+        <Box sx={{
+          maxWidth : 100,
+          marginLeft: '5px',
+        }}> 
+          <FormControl fullWidth>
+              
+              <Select
+                  value={status}
+                  label="Status"
+                  onChange={handleSelectStatus}
+                  variant="standard"
+                  sx={{
+                    ':before': { borderBottomColor: '#ff8640' },
+                    ':after': { borderBottomColor: '#ff8640' },
+                  }}
+                  s
+                  >
+                  <MenuItem value={0}> All</MenuItem>
+                  <MenuItem value={3}> Present</MenuItem>
+                  <MenuItem value={4}> Delete</MenuItem>
+                  <MenuItem value={5}> Inactivate</MenuItem>
+                  <MenuItem value={9}> Blocking</MenuItem>
+              </Select>
+          </FormControl>
+        </Box>
+                    </div>
+        <form >
+        <Paper
+          sx={{
+            p: "2px 4px",
+            display: "flex",
+            alignItems: "center",
+            width: 400,
+            '.& Paper-root' : {
+              boxShadow: 'none'
+            },
+            '.& Paper' :{
+              boxShadow: 'none'
+            }
+          }}
+        >
+
+          <Input
+        sx={{
+          ml: 1, 
+          flex: 1 ,
+          ':after' : {
+            borderBottom : '3px solid #FF8640'
+          },
+          ':before' : {
+            borderBottom : 'none'
+          }
+        }}
+        placeholder="Search Accounts"
+        value={searchInput}
+        onChange={handleSearchNameChange}
+        
+        />
+          <IconButton type="submit" sx={{ p: "10px" }} >
+            <SearchIcon />
+          </IconButton>
+        </Paper>
+        </form>
+      </div>
+
       <DataGrid
-        rows={account}
+      rowCount={totalRow}
+        rows={accounts}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-        disableSelectionOnClick
+        pageSize={pageSize}
+        page={page - 1}
+        rowsPerPageOptions={pageSizeOption}
+        checkboxSelection 
         className={style.rowSelected}
+        disableSelectionOnClick={true}
+        pagination
+        paginationMode="server"
+        onPageChange={(page) => setPage(page + 1)}
+        onPageSizeChange={(size) => setPageSize(size)}
+        loading={loading}
+        components={{
+          NoRowsOverlay: () => (
+            <Stack height="100%" alignItems="center" justifyContent="center">
+              <h3>
+              No result finding reported post
+              </h3>
+            </Stack>
+          ),
+          NoResultsOverlay: () => (
+            <Stack height="100%" alignItems="center" justifyContent="center">
+              Local filter returns no result 
+            </Stack>
+          ),
+          LoadingOverlay : () => {
+            <Stack height="100%" alignItems="center" justifyContent="center">
+              Loading account .... 
+            </Stack>
+          }
+        }}
       />
     </div>
   );

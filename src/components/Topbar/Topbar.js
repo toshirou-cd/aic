@@ -6,7 +6,6 @@ import ProfileMenu from "../ProfileMenu.js/ProfileMenu";
 
 const Topbar = () => {
   const classes = useStyle();
-
  
 
   return (

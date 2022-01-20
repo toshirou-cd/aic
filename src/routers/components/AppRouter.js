@@ -5,6 +5,7 @@ import AdminRouter, { sideBarItems } from './admin/AdminRouter'
 import AppLayout from '../../components/AppLayout';
 import PageNotFound from '../../pages/PageNotFound';
 import UserProfile from '../../pages/UserProfile/UserProfile';
+import Posts from '../../pages/Posts/Posts';
 
 const routes = [
     {
@@ -32,7 +33,9 @@ const routes = [
     {
       component: UserProfile,
       path: '/:id',
-    }
+      isPrivate: true
+    },
+    
   ];
   
   const AppRouter= () => {

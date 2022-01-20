@@ -1,5 +1,7 @@
 import axios from "axios";
+import { Redirect, useHistory } from "react-router-dom";
 import BASE_URL from "../../utils/Url";
+
 
 export const axiosApiInstance = axios.create();
 
@@ -15,6 +17,17 @@ axiosApiInstance.interceptors.request.use(
     Promise.reject(error);
   }
 );
+
+axios.interceptors.response.use(response => {
+  return response;
+}, error => {
+ if (error.response.status === 401) {
+   console.log('looi cmrn')
+   
+  return <Redirect to='/login' />
+ }
+ return error;
+});
 
 export const Login = (username,password) => {
         return axiosApiInstance

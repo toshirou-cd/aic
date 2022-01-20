@@ -5,6 +5,9 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import BASE_URL from "../../utils/Url";
 import PostDetailPopUp from "../PostDetailPopUp/PostDetailPopUp";
 import PostDetail from "../PostDetail/PostDetail";
+import { useLocation, useParams } from "react-router-dom";
+import { getAccountDetail } from "../../services/account/account";
+import { getRandomPost } from "../../services/PostService";
 
 const obj ={
   ai_caption: "",
@@ -23,7 +26,8 @@ user_name: "",
 }
 
 const PostList = (props) => {
-  const [post, setPost] = useState(obj)
+  const [postList, setPostList] = useState([])
+  const [post, setPost] = useState({})
   const [openPopUp, setOpenPopUp] = useState(false);
   // const [imgList, setImgList] = useState([])
   // useEffect(() => {
@@ -33,10 +37,28 @@ const PostList = (props) => {
     setPost(data)
     setOpenPopUp(true)
   }
+
+
+  const {id} =useParams() 
+  const location  = useLocation()
+  const path = location.pathname.split('/')[2]
+  useEffect(() => {
+    if( path === 'posts') {
+      getRandomPost(10,10).then(data => {
+        setPostList(data)
+      })
+    } else {
+      getAccountDetail(id,10).then((data)=> {
+        setPostList(data.posts)
+      })
+    }
+  }, [openPopUp])
+
+
   return (
     <>
       <div className="postListWrapper">
-        {  props.postList.map((item) => (
+        { postList && postList.map((item) => (
           <>
             <div className="postItem" onClick={(e) => handleOpenPopup(e,item)}>
               <img
@@ -46,12 +68,11 @@ const PostList = (props) => {
                 loading="lazy"
                 style={{
                   width: "200px",
-                  height: "200px",
+                  height: 'auto',
                   border: "none",
                   borderRadius: "5px",
                   objectFit:'contain'
                 }
-              
               }
               />
               <div className="postDescription">
@@ -60,9 +81,11 @@ const PostList = (props) => {
             </div>
           </>
         ))}
-                <PostDetailPopUp openPopUp={openPopUp} setOpenPopUp={setOpenPopUp}>
-                  <PostDetail post={post}/>
+        <PostDetailPopUp openPopUp={openPopUp} setOpenPopUp={setOpenPopUp}>
+                  <PostDetail post={post} setOpenPopUp={setOpenPopUp}/>
                 </PostDetailPopUp>
+
+                
       </div>
     </>
   ); 

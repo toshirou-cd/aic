@@ -1,3 +1,17 @@
+.header{
+    display: flex;
+    flex-direction: row;
+    height: 40px;
+    padding: 20px;
+    align-items: center;
+}
+.title{
+    padding: 20px;
+    font-weight: bold;
+}
+.status {
+    flex-grow: 99;
+}
 .userListUser {
     display: flex;
     align-items: center;
@@ -9,6 +23,7 @@
     object-fit: cover;
     margin-right: 10px;
 }
+
 .detailButton{
     border: none;
     border-radius: 10px;
