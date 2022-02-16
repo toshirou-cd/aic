@@ -35,3 +35,13 @@ export const handleHistory = (history) => {
   if (time > 24 && time < 720) return `${parseInt(time / 24)} days ago`;
   if (time > 720 && time < 8640) return `${parseInt(time / 720)} months ago`;
 };
+
+export const handleContestActive = (active_status) => {
+  if (active_status === 0 ) return 'Active'
+  if (active_status === 1 ) return 'Inactive'
+}
+
+export const handleTimeLeft = (minutes) => {
+  if(minutes > 60 && minutes <1440 ) return Math.floor(minutes/60) + " hours left "
+  if(minutes >= 1440 && minutes <43200 ) return Math.floor(minutes/1440) + " days left "
+}

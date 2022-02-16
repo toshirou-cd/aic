@@ -14,7 +14,7 @@
 // import UserManagementPage from '@app/pages/user-management/UsermanagementPage';
 
 import Account from "../../../pages/Account/Account";
-import { Darshboard } from "../../../pages/DarshBoard";
+import { Darshboard } from "../../../pages/Dashboard/DarshBoard";
 import React from 'react';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';

@@ -5,6 +5,9 @@ const BASE_URL = {
     getAccountList : URL_API + 'users/getuseraccountforadmin',
     getAvatar : URL_API + 'images/getuseravatar',
     getAccountDetail : URL_API + 'users/getuserdetailforadmin',
+    getMoreUserPost : URL_API + 'users/getmoreuserpost',
+    getUserContestPost : URL_API + 'posts/getusercontestpost',
+    getMoreUserContestPost : URL_API + 'posts/getusercontestpost',
     getImgFromPost : URL_API +'images/getimgfrompost',
     getCommentAndLikeInit : URL_API + 'posts/getpostcommentandlikeInit',
     getPageComment : URL_API + 'posts/getpagecomment',
@@ -27,7 +30,10 @@ const BASE_URL = {
     createContest : URL_API + 'contests/addcontest',
     getUserIncontest : URL_API + 'contests/getuserincontest',
     getContestDetail : URL_API + 'contests/getcontestdetailforadmin',
-    activeContestManually : URL_API + 'contests/activecontestmanually'
+    activeContestManually : URL_API + 'contests/activecontestmanually',
+    changeUserStatus : URL_API + 'users/changstatusaccountbyadmin',
+    finishContestManually : URL_API +'contests/finishcontestmanually',
+    getDashboardInfo : URL_API + 'posts/collectinformation'
     
 }
 

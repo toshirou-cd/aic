@@ -8,6 +8,6 @@ const Redirect = (props) => {
     return (
       <>
       </>
-     )
+     )  
    }
 export default withRouter(Redirect);

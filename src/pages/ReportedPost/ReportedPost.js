@@ -13,11 +13,11 @@ import { convertDateTime } from "../../utils/tool";
 const ReportedPost = (props) => {
   const [data, setData] = useState({ 
     loading: true,
-    rowsPerPageOptions: [1, 2]
+    rowsPerPageOptions: [5, 10]
     // status : 0 ,1 ,2 ,6
   });
   const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(1)
+  const [pageSize, setPageSize] = useState(5)
   const [status, setStatus] = useState(0)
   const [categories, setCategories] = useState([])
   const [categoryId, setCategoryId] = useState('all')
@@ -85,20 +85,20 @@ const ReportedPost = (props) => {
       headerName: "Detail",
       width: 100,
       sortable: false,
-      renderCell: (params) => {
-        return (
-          <div>
-            <Link to={`${props.match.url}/${params.row.report_id}`}>
-              <button
-                className="detailButton"
-                // disabled={true}
-              >
-                Detail
-              </button>
-            </Link>
-          </div>
-        );
-      },
+        renderCell: (params) => {
+          return (
+            <div>
+              <Link to={`${props.match.url}/${params.row.report_id}`}>
+                <button
+                  className="detailButton"
+                  // disabled={true}
+                >
+                  Detail
+                </button>
+              </Link>
+            </div>
+          );
+        },
     },
   ];
   const handleSelectCategory = (e) => {

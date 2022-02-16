@@ -7,10 +7,10 @@ import { notifyError, notifyUpdateSucessfully } from '../../redux/actions/notify
 import { useDispatch } from 'react-redux'
 
 const UpdateUserInfoForm = props => {
-    const {userID, openPopUp , setOpenPopUp} = props
+    const {userID, openPopUp , setOpenPopUp,propsemail,propsphone} = props
     const [updateInfo, setUpdateInfo] = useState({
-        email : '',
-        phone : ''
+        email : propsemail,
+        phone : propsphone
     })
     const [loading, setLoading] = useState(false)
 

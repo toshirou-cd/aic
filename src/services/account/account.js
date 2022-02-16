@@ -55,7 +55,7 @@ export const getAccountDetail = (id, limitPost) => {
     })
 
     .then((res) => {
-      return res.data.data;
+      return res.data;
     })
     .catch((err) => {
       console.log("Error get Account Detail :" + err);
@@ -90,6 +90,21 @@ export const deleteAccount = (id) => {
       console.log("Error delete account :" + err);
     });
 };
+export const updateAccount = (id,status) => {
+  return axiosApiInstance
+    .post(BASE_URL.changeUserStatus, {
+      
+      Id: id,
+      status : status
+    })
+
+    .then((res) => {
+      return res.data.statusCode;
+    })
+    .catch((err) => {
+      console.log("Error delete account :" + err);
+    });
+};
 
 export const updateUserInfo = (id, email, phone) => {
   return axiosApiInstance
@@ -104,5 +119,56 @@ export const updateUserInfo = (id, email, phone) => {
     })
     .catch((err) => {
       console.log("Error delete account :" + err);
+    });
+};
+
+
+export const getMorePost = (id,limitpost,date) => {
+  return axiosApiInstance
+    .get(BASE_URL.getMoreUserPost, {
+      params: {
+        user_id: id,
+        limitpost : limitpost,
+        date_boundary : date,
+      },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("Error getting more post :" + err);
+    });
+};
+
+
+export const getPostOfUserInContest = (limitpost,id) => {
+  return axiosApiInstance
+    .get(BASE_URL.getUserContestPost, {
+      params: {
+        limitPost: limitpost,
+        userId : id,
+      },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("Error getting contest post :" + err);
+    });
+};
+export const getMorePostOfUserInContest = (limitpost,date,id) => {
+  return axiosApiInstance
+    .get(BASE_URL.getMoreUserContestPost, {
+      params: {
+        limitPost: limitpost,
+        date_boundary : date,
+        userId : id,
+      },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("Error getting contest post :" + err);
     });
 };

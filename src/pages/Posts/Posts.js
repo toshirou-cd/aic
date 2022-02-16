@@ -80,7 +80,6 @@ const Posts = (props) => {
           })
           setHasMore(true)
         } else {
-          console.log(' toi day roi')
             setLoading(false)
             setHasMore(false)
         }
@@ -136,24 +135,22 @@ const Posts = (props) => {
           </IconButton>
         </Paper>
       </form>
-      <div className="postListContainter">
         {/* {loading && 'Loading...'}
         {error && 'Error...'} */}
         <InfiniteScroll
         dataLength={posts.length}
         next={()=> 
           {
+            // console.log('date: ' + posts)
             setDateBoundary(posts.at(-1).date_create)
-            console.log('date: ' + dateBoundary)
             // handleLoadMore(dateBoundary)
           }}
         hasMore={hasMore}
         >
+        <div className="postListContainter">
         {posts &&
           posts.map((item,index) => {
-            
             return(
-              <>
               <Link to={`${props.match.url}/${item.post_id}`} key={item}>
                 <div className="postItem">
                   <LazyLoadImage
@@ -168,7 +165,7 @@ const Posts = (props) => {
                       borderRadius: "5px",
                       objectFit: "contain",
                     }}
-                    effect="blur"
+                    // effect="blur"
                     width='210px'
                     />
                   <div className="postDescription">
@@ -176,12 +173,11 @@ const Posts = (props) => {
                   </div>
                 </div>
               </Link>
-            </>
             )
           }
         )}
-        </InfiniteScroll>
       </div>
+        </InfiniteScroll>
     </div>
   );
 };

@@ -20,6 +20,7 @@ import {
   deleteAccount,
   forceLogout,
   getAccountDetail,
+  updateAccount,
 } from "../../services/account/account";
 import { useParams } from "react-router-dom";
 import altAvatar from "../../asset/image/image.png";
@@ -31,6 +32,7 @@ import {
   forceLogoutSuccess,
   notifyDeleteSucessFully,
   notifyError,
+  notifyUpdateSucessfully,
 } from "../../redux/actions/notifyActions";
 import { Tooltip } from "@material-ui/core";
 import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
@@ -82,9 +84,30 @@ const UserProfile = () => {
     });
   };
 
+  // update account
+  const handleUpdateAccount = () => {
+    updateAccount(id, 3).then((data) => {
+      if (data === 200) {
+        setConfirmDialog({
+          ...confirmDialog,
+          isOpen: false,
+        });
+        dispatch(notifyUpdateSucessfully());
+      } else {
+        setConfirmDialog({
+          ...confirmDialog,
+          isOpen: false,
+        });
+        dispatch(notifyError());
+      }
+    });
+  };
+
   useEffect(() => {
-    getAccountDetail(id, 10).then((data) => {
-      setUser(data);
+    getAccountDetail(id, 20).then((data) => {
+      if(data.statusCode === 200 ) {
+        setUser(data.data);
+      }
       // setPostList(data.posts)
     });
   }, [confirmDialog.isAccept, openPopUp]);
@@ -158,26 +181,24 @@ const UserProfile = () => {
                 <LogoutIcon />
               </IconButton>
             </Tooltip>
-            
-            {
-              
-            user.status === 9 ? 
-            <Tooltip title="Unblock this account">
-            <IconButton
-              onClick={() => {
-                setConfirmDialog({
-                  isOpen: true,
-                  title: "Are you sure you want to delete this account ?",
-                  subTitle: "Your operation can not reverse ",
-                  onConfirm: () => handleDeleteAccount(),
-                });
-              }}
-            >
-              <LockIcon color="error" />
-            </IconButton>
-          </Tooltip>
-             : 
-             <Tooltip title="Block this account">
+
+            {user.status === 9 ? (
+              <Tooltip title="Unblock this account">
+                <IconButton
+                  onClick={() => {
+                    setConfirmDialog({
+                      isOpen: true,
+                      title: "Are you sure you want to  unblock this account ?",
+                      subTitle: "Your operation can not reversed ",
+                      onConfirm: () => handleUpdateAccount(),
+                    });
+                  }}
+                >
+                  <LockIcon color="error" />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <Tooltip title="Block this account">
                 <IconButton
                   onClick={() => {
                     setConfirmDialog({
@@ -191,8 +212,7 @@ const UserProfile = () => {
                   <LockIcon color="error" />
                 </IconButton>
               </Tooltip>
-              
-            }
+            )}
           </ButtonGroup>
           <div className="showStatus">{getMessageCode(user.status)}</div>
         </div>
@@ -208,6 +228,8 @@ const UserProfile = () => {
         userID={id}
         openPopUp={openPopUp}
         setOpenPopUp={setOpenPopUp}
+        propsemail={user.user_email}
+        propsphone={user.phone}
       />
     </>
   );

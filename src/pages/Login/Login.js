@@ -38,7 +38,7 @@ const Login = () => {
 
   const style = useStyle()
   const paperStyle = {
-    opacity: '85%',
+    opacity: '90%',
     padding: 20,
     height: "70vh",
     width: 280,
@@ -62,6 +62,9 @@ const Login = () => {
       position: 'fixed',
       top: 0,
   left: 0,
+  display:'flex',
+  alignItems : 'center',
+  justifyContent : 'center'
     }
    };
 

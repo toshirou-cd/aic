@@ -1,11 +1,112 @@
 import React from 'react'
+import { useEffect, useState } from "react";
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import {getCollectionInfo } from '../../services/DashBoardService'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import './DashBoard.css'
 
 export const Darshboard = () => {
+
+  const[data,setData] = useState(null)
+
+
+
+  const handleRate = (rate) => {
+    if(String(rate).charAt(0) === '-' ) return <div>{rate} '%' <ArrowDownwardIcon style={{color:'red'}}/></div>
+    return <div style={{display:'inline-flex',alignItems:'center'}}>${rate}%  <ArrowUpwardIcon style={{color:'green'}}/> </div>
+  }
+
+  useEffect(() => {
+    getCollectionInfo().then(res => {
+      if(res.statusCode === 200) {
+        console.log(res.data)
+        setData(res.data)
+      }
+    })
+  },[])
+  
+
+  if(data !== null) 
+  {
+
+    return (
+      <div className='dashboard'>
+      <div className='widget'>
+        <div className='widgetItem'>
+            <span className='widgetTitle'>
+                Post Amount
+            </span>
+            <div className='widgetContainer'>
+                <span className='widget'>
+                  {data.postOfCurrentMonth.currentMonthCount}
+                  </span>
+                <span className='widgetRate'>
+                  {handleRate(data.postOfCurrentMonth.percent)}
+                </span>
+            </div>
+            <span className='widgetsub'>
+              Compared to last month
+            </span>
+        </div>
+        <div className='widgetItem'>
+            <span className='widgetTitle'>
+                Reported Post
+            </span>
+            <div className='widgetContainer'>
+            <span className='widget'>
+              {data.reportOfCurrentMonth.currentMonthCount}
+              </span>
+                <span className='widgetRate'>
+                {handleRate(data.reportOfCurrentMonth.percent)}
+                </span>
+            </div>
+            <span className='widgetsub'>
+              Compared to last month
+            </span>
+        </div>
+        <div className='widgetItem'>
+            <span className='widgetTitle'>
+                AI caption used by user
+            </span>
+            <div className='widgetContainer'>
+            <span className='widget'>
+              {data.aiOfCurrentMonth.currentMonthCount}
+              </span>
+                <span className='widgetRate'>
+                {handleRate(data.aiOfCurrentMonth.percent)}
+                </span>
+            </div>
+            <span className='widgetsub'>
+              Compared to last month
+            </span>
+        </div>
+        
+      </div>
+
+      <div className='chart'>
+          <h3 className='caption'>AI caption using analyse</h3>
+          <div className='chartItem'>
+            <ResponsiveContainer width='100%' aspect={4/1}>
+              <LineChart data={data.months}>
+                  <XAxis dataKey="month"/>
+                  <Line type="monotone" dataKey="countPost"/>
+                  <Tooltip />
+              </LineChart>
+            </ResponsiveContainer>
+            
+          </div>
+      </div>
+    </div>
+  ) 
+} else {
+
   return (
     <div>
-      Dash board
+      Loading...
     </div>
   )
+}
 }
 
 

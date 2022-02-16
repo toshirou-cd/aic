@@ -9,7 +9,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn";
 import {convertDateTime} from '../../utils/tool'
 import { getMessageCode } from "../../utils/contanst";
-import { flexbox } from "@mui/system";
+import { display, flexbox } from "@mui/system";
 import { Stack, Chip } from "@mui/material";
 import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
 import { notifyDeleteSucessFully, notifyError, notifyUpdateSucessfully } from "../../redux/actions/notifyActions";
@@ -17,18 +17,25 @@ import { useDispatch } from "react-redux";
 
 const ReportDetail = () => {
   const { reportId } = useParams();
-  const [report, setReport] = useState({});
-  const [post, setPost] = useState({});
+  const [report, setReport] = useState(null);
+  const [post, setPost] = useState(null);
   const [error, setError] = useState(false);
   const [postId, setPostId] = useState("");
-    const [confirmDialog, setConfirmDialog] = useState({
-        isOpen: false,
-        title: '',
-        subTitle: '',
-        isAccept : false
-    })
-
-
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: '',
+    subTitle: '',
+    isAccept : false
+  })
+  
+  useEffect(() => {
+    if (postId !== "") {
+      getPostDetail(postId, 3).then((data) => {
+        setPost(data.data);
+      });
+    }
+  }, [postId]);
+  
   useEffect(() => {
     getReportDetail(reportId).then((data) => {
       if (!data.data) {
@@ -41,13 +48,6 @@ const ReportDetail = () => {
     });
   }, [postId,confirmDialog.isAccept]);
 
-  useEffect(() => {
-    if (postId !== "") {
-      getPostDetail(postId, 3).then((data) => {
-        setPost(data.data);
-      });
-    }
-  }, [postId]);
 
 
   const handleColorChip =(status) => {
@@ -62,13 +62,17 @@ const ReportDetail = () => {
   /// handle request status 
   const handleUpdateStatus = (status) => {
     updateReport(report.report_id,status).then((res)=>{
-        if(res === 200) {
+        if(res.statusCode === 200) {
           setConfirmDialog({
             ...confirmDialog,
             isOpen : false
           })
           dispatch(notifyUpdateSucessfully())
         } else {
+          setConfirmDialog({
+            ...confirmDialog,
+            isOpen : false
+          })
             dispatch(notifyError())
         }
       })
@@ -83,7 +87,10 @@ const ReportDetail = () => {
         </div>
       </div>
     );
-
+    
+  if(post === null || report === null) {
+    return <div>Loading...</div>
+  } else {
   return (
     <div className="reportWrapper">
       <div className="reportDetail">
@@ -121,15 +128,16 @@ const ReportDetail = () => {
                     title : 'Are you sure to accept this report  ?',
                     subTitle : 'You operation will delete this post ',
                     onConfirm : () => handleUpdateStatus(2)
-            })}}>
+                  })}}>
               <CheckIcon />
             </IconButton>
           </Tooltip>
+
           <Tooltip title="Reject this report ">
             <IconButton color="secondary"  disabled={post.status === 4 || report.status !== 1 ? true : false}
             onClick={() => {
-                setConfirmDialog({
-                    isOpen : true,
+              setConfirmDialog({
+                  isOpen : true,
                     title : 'Are you sure to reject this report  ?',
                     subTitle : 'You operation can not be  reveresed ',
                     onConfirm : () => handleUpdateStatus(6)
@@ -139,12 +147,20 @@ const ReportDetail = () => {
           </Tooltip>
         </div>
       </div>
-
-      <PostDetail post={post} isNormal={false}/>
+      <div style={{
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center',
+        padding:'0'
+      }
+      }>
+        <PostDetail post={post} isNormal={false}/>
+      </div>
 
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog}/> 
     </div>
   );
+    }
 };
 
 export default ReportDetail;

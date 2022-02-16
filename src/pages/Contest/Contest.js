@@ -2,7 +2,9 @@ import {
   Box,
   Button,
   FormControl,
+  Input,
   MenuItem,
+  Paper,
   Select,
   Tooltip,
 } from "@mui/material";
@@ -14,10 +16,13 @@ import { Link, useHistory } from "react-router-dom";
 import GridCellExpand from "../../components/GridCellExpand";
 import useContestSearch from "../../hooks/useContestSearch";
 import { getMessageCode } from "../../utils/contanst";
-import { convertDateTime } from "../../utils/tool";
+import { convertDateTime, handleContestActive } from "../../utils/tool";
 import "./Contest.css";
 import AddIcon from '@mui/icons-material/Add';
 import CreateContestPopUp from "../../components/CreateContestPopUp/CreateContestPopUp";
+import SearchIcon from '@mui/icons-material/Search';
+import { IconButton } from "@material-ui/core";
+
 
 const Contest = (props) => {
   const history = useHistory();
@@ -70,7 +75,7 @@ const Contest = (props) => {
     {
       field: "contest_name",
       headerName: "Contest Name",
-      width: 200,
+      width: 180,
       renderCell: renderCellExpand,
     },
     {
@@ -85,14 +90,28 @@ const Contest = (props) => {
       sortable: false,
       //   width: auto,
       renderCell: (params) => {
+        if(params.row.status === 1) return 'Delayed'
         return getMessageCode(params.row.status);
+      },
+    },
+    {
+      field: "contest_active",
+      headerName: "Active",
+      sortable: false,
+      //   width: auto,
+      renderCell: (params) => {
+        if(params.row.status === 3) {
+          return handleContestActive(params.row.contest_active)
+        } else {
+          return (<div style={{display:'flex',justifyContent:'center','leftMargin':'5px'}}> - </div>)
+        }
       },
     },
     {
       field: "date_create",
       headerName: "Start",
       sortable: false,
-      width: 130,
+      width: 100,
       renderCell: (params) => {
         return convertDateTime(params.row.date_create);
       },
@@ -109,7 +128,7 @@ const Contest = (props) => {
     {
       field: "detail",
       headerName: "Detail",
-      width: 130,
+      width: 120,
       renderCell: (params) => {
         return (
           <div>
@@ -156,6 +175,19 @@ const Contest = (props) => {
     setStatus(e.target.value);
   };
 
+   // handle search 
+   const handleSearchNameChange = (e) => {
+    setSearchInput(e.target.value)
+    
+    if( typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current)
+    }
+    
+    typingTimeoutRef.current = setTimeout(() => {
+      setsearchName(e.target.value)
+    },300)
+  }
+
   return (
     <div className="contestWrapper">
       <div
@@ -179,6 +211,7 @@ const Contest = (props) => {
             maxWidth: 100,
             minWidth: 100,
             marginLeft: "10px",
+            
           }}
         >
           <FormControl fullWidth>
@@ -201,11 +234,50 @@ const Contest = (props) => {
             </Select>
           </FormControl>
         </Box>
-        <Button color="primary" variant='outlined' sx={{
-            position :'absolute',
-            top: '50%',
-            right : '10px',
-            transform: 'translateY(-50%)'
+        <div style={{flexGrow: 1}}>
+        </div>
+
+        <form >
+        <Paper
+          sx={{
+            p: "2px 4px",
+            display: "flex",
+            alignItems: "center",
+            width: 400,
+            '.& Paper-root' : {
+              boxShadow: 'none'
+            },
+            '.& Paper' :{
+              boxShadow: 'none'
+            }
+          }}
+        >
+
+          <Input
+        sx={{
+          ml: 1, 
+          flex: 1 ,
+          ':after' : {
+            borderBottom : '3px solid #FF8640'
+          },
+          ':before' : {
+            borderBottom : 'none'
+          }
+        }}
+        placeholder="Search Accounts"
+        value={searchInput}
+        onChange={handleSearchNameChange}
+        
+        />
+          <IconButton type="submit" sx={{ p: "10px" }} >
+            <SearchIcon />
+          </IconButton>
+        </Paper>
+        </form>
+        
+        <Button color="primary" variant='outlined'
+         sx={{
+            marginLeft:'1rem'
         }}
         onClick={() => setOpenPopUp(true)}
         >

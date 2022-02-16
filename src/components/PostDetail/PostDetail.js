@@ -14,7 +14,6 @@ import {
   getLikeAndCommentInit,
   getPageComment,
 } from "../../services/PostService";
-import LoadingButton from "@mui/lab/LoadingButton";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { makeStyles } from "@material-ui/core";
 import Tooltip from '@mui/material/Tooltip';
@@ -22,6 +21,9 @@ import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
 import {notifyDeleteSucessFully} from "../../redux/actions/notifyActions";
 import { useDispatch } from "react-redux";
 import moment from "moment";
+import LoadingButton from "@mui/lab/LoadingButton"
+
+
 const useStyle = makeStyles({
   loadingButton: {
     height: "12px",
@@ -108,6 +110,7 @@ const PostDetail = (props) => {
   
   }, [totalComment,post]);
 
+  if(!post) return <div>Loading...</div>
   return (
     <div className="classWrapper">
       <img
@@ -156,10 +159,10 @@ const PostDetail = (props) => {
           ))}
         </div>
 
-        {totalComment - comments.length !== 0 && (
+         {totalComment - comments.length !== 0 && (
           <LoadingButton
             loading={loading}
-            color=""
+            // color=""
             startIcon={<RefreshIcon />}
             loadingPosition="start"
             variant="text"
@@ -168,7 +171,7 @@ const PostDetail = (props) => {
           >
             Load more comments
           </LoadingButton>
-        )}
+         )} 
       </div>
       <div className="toolButton">
         {
@@ -183,7 +186,6 @@ const PostDetail = (props) => {
         {
         isNormal &&
           <Tooltip title="Delete Post">
-          {/* <ButtonGroup> */}
           <IconButton onClick={() => setConfirmDialog({
             isOpen : true,
             title : 'Are you sure to delete this post ?',
@@ -192,7 +194,6 @@ const PostDetail = (props) => {
           })} disableRipple>
                <DeleteOutlineOutlinedIcon />
                </IconButton>
-               {/* </ButtonGroup> */}
                </Tooltip>
                
 }

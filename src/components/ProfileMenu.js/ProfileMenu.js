@@ -55,7 +55,7 @@ const ProfileMenu = () => {
         size='large'
         sx={{
             fontSize : '15px',
-            fontWeight : 'bold',
+            fontWeight : '600',
             color : '#050505'
         }
 

@@ -95,5 +95,32 @@ export const getContest = async (searchName, page, pageSize, status , date_up, d
     });
   };
 
+  export const activeContest = async (id ) => {
+    return await axiosApiInstance
+    .post(BASE_URL.activeContestManually, {
+      contest_id: id,
+      delay_time: 0
+    }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("Active contest error :" + err);
+    });
+  };
+  export const finishContest = async (id ) => {
+    return await axiosApiInstance
+    .get(BASE_URL.finishContestManually, {params :{
+      contest_id: id,
+    }}
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("Finish contest error :" + err);
+    });
+  };
 
 
