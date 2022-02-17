@@ -25,7 +25,7 @@ import {
 import DateAdapter from "@mui/lab/AdapterMoment";
 import moment from "moment";
 import { Stack } from "@mui/material";
-import { getPrizesInit , createContest} from "../../services/ContestService";
+import {  createContest, getPrizesList} from "../../services/ContestService";
 import { getPostDetail } from "../../services/PostService";
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
@@ -136,7 +136,7 @@ const CreateContestPopUp = (props) => {
   }
 
   useEffect(() => {
-    getPrizesInit('',10,3).then(data => {
+    getPrizesList('',1,10,3).then(data => {
       if(data.statusCode === 200) {
         setPrizes(data.data)
       }

@@ -42,6 +42,7 @@ export const handleContestActive = (active_status) => {
 }
 
 export const handleTimeLeft = (minutes) => {
+  if(minutes <= 60  ) return Math.floor(minutes) + " minutes left "
   if(minutes > 60 && minutes <1440 ) return Math.floor(minutes/60) + " hours left "
   if(minutes >= 1440 && minutes <43200 ) return Math.floor(minutes/1440) + " days left "
 }

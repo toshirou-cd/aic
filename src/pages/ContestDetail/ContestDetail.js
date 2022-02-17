@@ -1,5 +1,5 @@
 import { DataGrid } from "@material-ui/data-grid";
-import { Stack } from "@mui/material";
+import { Divider, IconButton, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -24,6 +24,8 @@ import { Button, Chip, Tooltip } from "@material-ui/core";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
 import { getMessageCode } from "../../utils/contanst";
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import EditIcon from '@mui/icons-material/Edit';
 
 const ContestDetail = (props) => {
   const [users, setUsers] = useState([]);
@@ -206,7 +208,7 @@ const ContestDetail = (props) => {
         }}
       >
         {
-            <Stack sx={{ maxWidth: "150px",minWidth:'100px' }}>
+            <Stack sx={{ maxWidth: "200px",minWidth:'100px' }}>
           <Chip
             label={data.status === 1 ? `${handleTimeLeft(data.time_left)} to active` : data.time_left}
             color="error"
@@ -258,15 +260,43 @@ const ContestDetail = (props) => {
         </div>
 
         <div className="detailShowing">
-          <div>Contest name : </div>
+          <div>Contest name  </div>
+          <div>: </div>
           <div>{data.contest_name} </div>
-          <div>Desctiption : </div>
+          <div>Desctiption  </div>
+          <div>: </div>
           <div>{data.description} </div>
-          <div>Date create : </div>
+          <div>Date create</div>
+          <div>: </div>
           <div>{convertDateTime(data.date_create)} </div>
-          <div>Date end : </div>
+          <div>Date end  </div>
+          <div>: </div>
           <div>{convertDateTime(data.date_end)} </div>
+
         </div>
+          <Divider />
+
+          <div className="prizeWrapper">
+              <span className="prizeTitle"><EmojiEventsIcon/> Award : </span>
+                {data.prizes && data.prizes.map((item) =>(
+              <div className="prize" key={item}>
+                    <div>
+                        Top {item.top} :
+                    </div>
+                    <div>
+                        {item.name}
+                    </div>
+              </div>
+                ))}
+              
+              <IconButton sx={{position:'absolute',top:'5px', right:'5px'}}>
+                <Tooltip title="Update Prize">
+
+                  <EditIcon/>
+                </Tooltip>
+              </IconButton>
+          </div>
+
       </div>
       <div style={{ height: "400px" }}>
         <DataGrid
@@ -302,7 +332,44 @@ const ContestDetail = (props) => {
       </div>
       <div>
         <div className="postListWrapper">
-          
+          <div className="topPostWrapper">
+            <div className="title"><EmojiEventsIcon/> Top 3 post : </div>
+            <div className="topPost">
+              {
+                data.top_ThreePosts && (
+                  data.top_ThreePosts.map((item) => (
+                    <>
+                      <div
+                        className="postItem"
+                        onClick={(e) => handleOpenPopup(e, item)}
+                        >
+                        <img
+                          src={`${BASE_URL.getImgFromPost}/${item.image_url}`}
+                          srcSet={`${BASE_URL.getImgFromPost}/${item.image_url}`}
+                          alt={item.ai_caption}
+                          loading="lazy"
+                          width="210px"
+                          style={{
+                            height: "auto",
+                            border: "none",
+                            borderRadius: "5px",
+                            objectFit: "contain",
+                          }}
+                          />
+                        <div className="postDescription">
+                          <FavoriteOutlinedIcon /> {item.likecount}
+                        </div>
+                      </div>
+                    </>
+                  ))
+                  ) 
+
+              }
+            </div>
+          </div>
+          <Divider /> 
+          <div className="norPostWrapper">
+
           { 
           posts !== null ? (
             posts.map((item) => (
@@ -310,35 +377,37 @@ const ContestDetail = (props) => {
                 <div
                   className="postItem"
                   onClick={(e) => handleOpenPopup(e, item)}
-                >
+                  >
                   <img
                     src={`${BASE_URL.getImgFromPost}/${item.image_url}`}
                     srcSet={`${BASE_URL.getImgFromPost}/${item.image_url}`}
                     alt={item.ai_caption}
                     loading="lazy"
+                    width="210px"
                     style={{
-                      width: "200px",
                       height: "auto",
                       border: "none",
                       borderRadius: "5px",
                       objectFit: "contain",
                     }}
-                  />
+                    
+                    />
                   <div className="postDescription">
                     <FavoriteOutlinedIcon /> {item.likecount}
                   </div>
                 </div>
               </>
             ))
-          ) 
-          : 
+            ) 
+            : 
             <div style={{ fontWeight: "600", color: "#C0C0C0",display:'flex',justifyContent:'center' }}>
               There hasn't post here !
             </div>
                   }
           {/* <PostDetailPopUp openPopUp={openPopUp} setOpenPopUp={setOpenPopUp}>
                   <PostDetail post={post} setOpenPopUp={setOpenPopUp} isNormal={true}/>
-        </PostDetailPopUp> */}
+                </PostDetailPopUp> */}
+                </div>
         </div>
       </div>
       <PostDetailPopUp openPopUp={openPopUp} setOpenPopUp={setOpenPopUp}>

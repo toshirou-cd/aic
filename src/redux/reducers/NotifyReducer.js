@@ -1,5 +1,5 @@
 import React from "react";
-import { CLOSE_NOTIFY, FORCE_LOG_OUT, NOTIFY_ACTIVE_CONTEST_SUCCESSFULLY, NOTIFY_CREATE_CONTEST_SUCCESSFULLY, NOTIFY_DELETE_SUCCESSFULLY, NOTIFY_ERROR, NOTIFY_FINISH_CONTEST_SUCCESSFULLY, NOTIFY_UPDATE_SUCCESSFULLY } from "../../utils/types";
+import { CLOSE_NOTIFY, FORCE_LOG_OUT, NOTIFY_ACTIVE_CONTEST_SUCCESSFULLY, NOTIFY_CREATE_CONTEST_SUCCESSFULLY, NOTIFY_DELETE_SUCCESSFULLY, NOTIFY_ERROR, NOTIFY_FINISH_CONTEST_SUCCESSFULLY, NOTIFY_SUCCESSFULLY, NOTIFY_UPDATE_SUCCESSFULLY } from "../../utils/types";
 
 const initialState = {
   isOpen: false,
@@ -58,6 +58,11 @@ export const NotifyReducer = (state = initialState, action) => {
           message : 'Finish contest successfully',
           type : 'success'
         }
+    case NOTIFY_SUCCESSFULLY : 
+        return {
+          isOpen : true,
+          message : action.payload
+        }    
     default:
       return state;
   }

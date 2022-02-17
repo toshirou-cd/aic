@@ -180,7 +180,7 @@ const ReportedPost = (props) => {
                   
                   >
                      <MenuItem value={'all'}> All Categories</MenuItem>
-                  {categories.map((data) => (
+                  {categories && categories.map((data) => (
                     <MenuItem value={data.id}> {data.category_name} </MenuItem>
                   )) }
               </Select>

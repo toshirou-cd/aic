@@ -23,11 +23,12 @@ export const getContest = async (searchName, page, pageSize, status , date_up, d
     });
   };
 
-  export const getPrizesInit = async (searchName, productPerPage, status ) => {
+  export const getPrizesList = async (searchName,currentPage, productPerPage, status ) => {
     return await axiosApiInstance
     .get(BASE_URL.getPrizesList, {
       params : {
         searchname : searchName,
+        currentPage : currentPage,
         productPerPage : productPerPage,
         status :status,
       }
@@ -40,6 +41,21 @@ export const getContest = async (searchName, page, pageSize, status , date_up, d
       console.log("Get prizes list error :" + err);
     });
   };
+
+  export const addPrize = async (name ) => {
+    return await axiosApiInstance
+    .post(BASE_URL.addPrize, {
+      prize_name: name
+      }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("add prize  error :" + err);
+    });
+  };
+
 
 
   export const createContest = async (contest_name, description, date_end,delaytime_tostart,Prizes ) => {

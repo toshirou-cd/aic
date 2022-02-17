@@ -137,6 +137,7 @@ const Posts = (props) => {
       </form>
         {/* {loading && 'Loading...'}
         {error && 'Error...'} */}
+
         <InfiniteScroll
         dataLength={posts.length}
         next={()=> 
@@ -145,8 +146,8 @@ const Posts = (props) => {
             setDateBoundary(posts.at(-1).date_create)
             // handleLoadMore(dateBoundary)
           }}
-        hasMore={hasMore}
-        >
+          hasMore={hasMore}
+          >
         <div className="postListContainter">
         {posts &&
           posts.map((item,index) => {
@@ -159,14 +160,13 @@ const Posts = (props) => {
                     alt={item.ai_caption}
                     loading="lazy"
                     style={{
-                      width: "210px",
                       height: "auto",
                       border: "none",
                       borderRadius: "5px",
                       objectFit: "contain",
                     }}
-                    // effect="blur"
                     width='210px'
+                    // effect="blur"
                     />
                   <div className="postDescription">
                     <FavoriteOutlinedIcon /> {item.likecount}
@@ -175,7 +175,7 @@ const Posts = (props) => {
               </Link>
             )
           }
-        )}
+          )}
       </div>
         </InfiniteScroll>
     </div>

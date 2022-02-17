@@ -15,6 +15,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import GridCellExpand from "../../components/GridCellExpand";
 import useContestSearch from "../../hooks/useContestSearch";
+import {usePrizeSearch} from "../../hooks/usePrizeSearch";
 import { getMessageCode } from "../../utils/contanst";
 import { convertDateTime, handleContestActive } from "../../utils/tool";
 import "./Contest.css";
@@ -22,6 +23,9 @@ import AddIcon from '@mui/icons-material/Add';
 import CreateContestPopUp from "../../components/CreateContestPopUp/CreateContestPopUp";
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton } from "@material-ui/core";
+import EditIcon from '@mui/icons-material/Edit';
+import AddPrizePopUp from "../../components/AddPrizePopUp/AddPrizePopUp";
+import { addPrize } from "../../services/ContestService";
 
 
 const Contest = (props) => {
@@ -34,6 +38,17 @@ const Contest = (props) => {
   const [searchInput, setSearchInput] = useState("");
   const typingTimeoutRef = useRef(null);
   const [openPopUp, setOpenPopUp] = useState(false)
+  const [prize, setPrize] = useState({
+    searchName:"",
+    page : 1,
+    pageSize: 5,
+    status : 0
+  })
+
+  const [addPrizePopUp, setAddPrizePopUp] = useState({isOpen : false})
+
+
+  const {prizes, prizeLoading, prizeTotalRow} = usePrizeSearch(prize.searchName ,prize.page , prize.pageSize, prize.status,addPrizePopUp)
 
   const { loading, contests, totalRow } = useContestSearch(
     searchName,
@@ -42,6 +57,10 @@ const Contest = (props) => {
     status,
     openPopUp
   );
+
+    useEffect(() => {
+
+    },[addPrizePopUp])
 
   renderCellExpand.propTypes = {
     /**
@@ -145,31 +164,48 @@ const Contest = (props) => {
       },
     },
   ];
-//   const prizeColumns =[
-//       {
-//           field : 'id',
-//           headerName : 'ID',
-//           width :'50'
-//       },
-//       {
-//           field : 'prize_name',
-//           headerName : 'Name',
-//           width :'100'
-//       },
-//       {
-//           field : 'status',
-//           headerName : 'Status',
-//           width :'50'
-//       },
-//       {
-         
-//           headerName : 'Action',
-//           width :'50',
-//           renderCell : params => (
-//               <Button variant='contained'> Update</Button>
-//           )
-//       },
-//   ]
+  const prizeColumns =[
+      {
+          field : 'id',
+          headerName : 'ID',
+          width :100
+      },
+      {
+          field : 'prize_name',
+          headerName : 'Name',
+          width : 250
+      },
+      {
+          field : 'status',
+          headerName : 'Status',
+          sortable :false,
+          width :150,
+          renderCell: (params) => {
+            return getMessageCode(params.row.status);
+          },
+      },
+      {
+         field :'action',
+          headerName : 'Action',
+          width :150,
+          renderCell: (params) => {
+            return (
+              <div>
+                <Link to={`${props.match.url}/${params.row.id}`}>
+                  <Tooltip title="Edit prize">
+
+                  <IconButton
+                    // disabled={true}
+                    >
+                    <EditIcon/> 
+                  </IconButton>
+                    </Tooltip>
+                </Link>
+              </div>
+            );
+          },
+      },
+  ]
   // handle select status
   const handleSelectStatus = (e) => {
     setStatus(e.target.value);
@@ -188,6 +224,8 @@ const Contest = (props) => {
     },300)
   }
 
+
+  
   return (
     <div className="contestWrapper">
       <div
@@ -229,8 +267,8 @@ const Contest = (props) => {
               <MenuItem value={0}> All</MenuItem>
               <MenuItem value={3}> Present</MenuItem>
               <MenuItem value={4}> Delete</MenuItem>
-              <MenuItem value={5}> Inactivate</MenuItem>
-              <MenuItem value={9}> Blocking</MenuItem>
+              {/* <MenuItem value={5}> Inactivate</MenuItem>
+              <MenuItem value={9}> Blocking</MenuItem> */}
             </Select>
           </FormControl>
         </Box>
@@ -324,12 +362,51 @@ const Contest = (props) => {
           }}
         />
       </div>
-      <div className="prizeWrapper">
-          {/* <DataGrid 
+      <div className="prizeContainter">
+          <Button variant="outlined" onClick={() => setAddPrizePopUp({isOpen:true })}>
 
-          /> */}
+                   <AddIcon />  Add more prize
+                   </Button>
+
+          <DataGrid 
+              rowCount={prizeTotalRow}
+              rows={prizes}
+              columns={prizeColumns}
+              pageSize={prize.pageSize}
+              page={prize.page - 1}
+              rowsPerPageOptions={pageSizeOption}
+              checkboxSelection
+              // className={style.rowSelected}
+              disableSelectionOnClick={true}
+              pagination
+              paginationMode="server"
+              onPageChange={(pages) => setPrize({...prize, page: pages+1})}
+              onPageSizeChange={(size) => setPrize(...prize,{pageSize : size})}
+              loading={loading}
+              components={{
+                NoRowsOverlay: () => (
+                  <Stack height="100%" alignItems="center" justifyContent="center">
+                    <h3>There are no coressponding prizes</h3>
+                  </Stack>
+                ),
+                NoResultsOverlay: () => (
+                  <Stack height="100%" alignItems="center" justifyContent="center">
+                    Local filter returns no result
+                  </Stack>
+                ),
+                LoadingOverlay: () => (
+                  <Stack height="100%" alignItems="center" justifyContent="center">
+                    Loading account ....
+                  </Stack>
+                ),
+                // Toolbar : () => (
+               
+                // )
+              }}
+          />
       </div>
       <CreateContestPopUp openPopUp={openPopUp} setOpenPopUp={setOpenPopUp} />
+      <AddPrizePopUp addPrizePopUp={addPrizePopUp} setAddPrizePopUp={setAddPrizePopUp}/>
     </div>
   );
 };
