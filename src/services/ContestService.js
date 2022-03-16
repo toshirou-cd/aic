@@ -138,5 +138,37 @@ export const getContest = async (searchName, page, pageSize, status , date_up, d
       console.log("Finish contest error :" + err);
     });
   };
+  export const updateContest = async (id, name ,des,date_end ) => {
+    return await axiosApiInstance
+    .post(BASE_URL.updateContest, 
+      {
+        Id: id,
+          contest_name: name,
+          description: des,
+        date_end: date_end
+    }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("Update contest error :" + err);
+    });
+  };
+  export const updateContestPrizes = async (id, prizes) => {
+    return await axiosApiInstance
+    .post(BASE_URL.updatePrizeContest, 
+      {
+        contest_id: id,
+        Prizes: prizes
+      }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("Update contest prizes error :" + err);
+    });
+  };
 
 

@@ -7,6 +7,8 @@ import {
   finishContest,
   getContestDetail,
   getContestUser,
+  updateContest,
+  updateContestPrizes,
 } from "../../services/ContestService";
 import "../Contest/Contest.css";
 import "../Account/Account.css";
@@ -19,13 +21,15 @@ import PostDetailPopUp from "../../components/PostDetailPopUp/PostDetailPopUp";
 import PostDetail from "../../components/PostDetail/PostDetail";
 import { getPostDetail } from "../../services/PostService";
 import { useDispatch } from "react-redux";
-import { notifyActiveContestSuccessfully, notifyError, notifyFinishContestSuccessfully } from "../../redux/actions/notifyActions";
+import { notifyActiveContestSuccessfully, notifyError, notifyFinishContestSuccessfully, notifySuccessfully } from "../../redux/actions/notifyActions";
 import { Button, Chip, Tooltip } from "@material-ui/core";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
 import { getMessageCode } from "../../utils/contanst";
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import EditIcon from '@mui/icons-material/Edit';
+import moment from 'moment'
+import { RemoveCircle, RemoveCircleOutline, Rtt } from "@mui/icons-material";
 
 const ContestDetail = (props) => {
   const [users, setUsers] = useState([]);
@@ -42,7 +46,7 @@ const ContestDetail = (props) => {
     subTitle: "",
     isAccept: false,
   });
-
+  const [isEdit,setIsEdit] = useState(false)
   const columns = [
     {
       field: "user_id",
@@ -172,6 +176,44 @@ const ContestDetail = (props) => {
     })
   }
 
+  // handle update contest 
+  const handleUpdateContest = () => {
+    setLoading(true)
+      updateContest(contestId,data.contest_name,data.description,data.date_end).then(res => {
+        if(res.statusCode === 200 ) {
+          dispatch(notifySuccessfully("Update contest successfully"))
+          setIsEdit(false)
+        } else {
+          dispatch(notifyError())
+        }
+      })
+      
+      setLoading(false)
+  }
+
+  // handle remove prize 
+  const handleRemovePrize = () => {
+    let tempPrize = [...data.prizes].map(({top,...prize}) => prize)
+
+    console.log('prizes : '+ JSON.stringify(tempPrize))
+    let prize = tempPrize.pop()
+    updateContestPrizes(contestId,tempPrize).then(res => {
+      if(res.statusCode === 200) {
+        setConfirmDialog({
+          ...confirmDialog,
+          isOpen : false
+        })
+        dispatch(notifySuccessfully("Removed prizes"))
+      } else {
+        setConfirmDialog({
+          ...confirmDialog,
+          isOpen : false
+        })
+        dispatch(notifyError())
+      }
+    })
+  }
+
   useEffect(() => {
     getContestUser(contestId, 50).then((res) => {
       if (res.messageCode === "CT120") {
@@ -195,7 +237,7 @@ const ContestDetail = (props) => {
         }
       }
     });
-  }, []);
+  }, [isEdit,confirmDialog.isOpen]);
 
   return (
     <div className="contestWrapper">
@@ -205,6 +247,7 @@ const ContestDetail = (props) => {
           display: "flex",
           gap: "10px",
           flexDirection: "column",
+          paddingLeft:"2rem"
         }}
       >
         {
@@ -220,8 +263,8 @@ const ContestDetail = (props) => {
         <div
           style={{
             position: "absolute",
-            top: "5px",
-            right: "5px",
+            top: "15px",
+            right: "15px",
             display: "flex",
             gap: "10px",
           }}
@@ -258,44 +301,91 @@ const ContestDetail = (props) => {
           
             }
         </div>
-
+            <Divider />
         <div className="detailShowing">
+        <div className="tool-button">
+          {
+            !isEdit  ?
+            <IconButton onClick={() => setIsEdit(!isEdit)}>
+                <Tooltip title="Edit Contest">
+                  <EditIcon/>
+                </Tooltip>
+              </IconButton>
+              :(
+                <div style={{display:"inline-block",gap:"1rem"}}>
+                <Button onClick={handleUpdateContest} size="small" color="primary" disabled={loading}>
+                  Save
+                  </Button>
+                <Button onClick={() => setIsEdit(false)} size="small" color="secondary"  disabled={loading}>
+                  Cancel
+                  </Button>
+                 </div>
+                )
+              }
+          </div>
           <div>Contest name  </div>
           <div>: </div>
-          <div>{data.contest_name} </div>
+          <input type="text" 
+            className="value"
+            value={data.contest_name} 
+            onChange={(e) => setData({...data,contest_name: e.target.value})} 
+            disabled={!isEdit}/>
           <div>Desctiption  </div>
           <div>: </div>
-          <div>{data.description} </div>
+          <input type="text" 
+            className="value"
+            value={data.description} 
+            onChange={(e) => setData({...data,description: e.target.value})} 
+            disabled={!isEdit}/>
           <div>Date create</div>
           <div>: </div>
-          <div>{convertDateTime(data.date_create)} </div>
+          <input type="date" 
+            className="value"
+            value={moment(data.date_create).format('yyyy-MM-DD')} 
+            disabled={true}/>
+          {/* <div>{convertDateTime(data.date_create)} </div> */}
           <div>Date end  </div>
           <div>: </div>
-          <div>{convertDateTime(data.date_end)} </div>
-
-        </div>
-          <Divider />
-
-          <div className="prizeWrapper">
-              <span className="prizeTitle"><EmojiEventsIcon/> Award : </span>
-                {data.prizes && data.prizes.map((item) =>(
+          <input type="date" 
+            className="value"
+            value={moment(data.date_end).format('yyyy-MM-DD')} 
+            onChange={(e) => setData({...data,date_end: e.target.value})} 
+            disabled={!isEdit}/>
+          <div>
+            Award
+          </div>
+          <div>:</div>
+          <div>
+          {data.prizes && data.prizes.map((item,index,arr) =>(
               <div className="prize" key={item}>
                     <div>
-                        Top {item.top} :
+                        Top {item.top} -
                     </div>
                     <div>
                         {item.name}
                     </div>
+                    {
+                      (arr.length - 1 === index) &&
+                      <div style={{marginLeft : "auto"}}>
+                        <Tooltip label="Remove this prize">
+
+                      <IconButton onClick={() => setConfirmDialog({
+                                        isOpen : true,
+                                        title : "Are you sure you want to remove this prize ?",
+                                        subTitle : "",
+                                        onConfirm : () => handleRemovePrize()
+                      })}
+                      ><RemoveCircleOutline color="error"/>
+                       </IconButton>
+                      </Tooltip>
+                    </div>
+                    }
               </div>
                 ))}
-              
-              <IconButton sx={{position:'absolute',top:'5px', right:'5px'}}>
-                <Tooltip title="Update Prize">
-
-                  <EditIcon/>
-                </Tooltip>
-              </IconButton>
           </div>
+        </div>
+          {/* <Divider /> */}
+         
 
       </div>
       <div style={{ height: "400px" }}>
@@ -331,7 +421,7 @@ const ContestDetail = (props) => {
         />
       </div>
       <div>
-        <div className="postListWrapper">
+        <div className="post-list-wrapper">
           <div className="topPostWrapper">
             <div className="title"><EmojiEventsIcon/> Top 3 post : </div>
             <div className="topPost">

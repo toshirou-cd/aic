@@ -149,7 +149,7 @@ const Account = (props) => {
       }}
     >
       <div className="header">
-        <h3 className='title'>Showing User List by </h3>
+        <h3 style={{fontSize:"20px",fontWeight:"700"}}>Showing User List by </h3>
         <div style={{flexGrow : 99}}>
         <Box sx={{
           maxWidth : 100,

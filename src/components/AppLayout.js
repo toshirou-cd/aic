@@ -19,7 +19,7 @@ const AppLayout = ( props ) => {
         <div className={classes.root}>
             <Topbar />
             <Navbar 
-                    routerPath={props.routerPath}
+                    routerPath={routerPath}
                     items={navItems}
                     />
             <div className={classes.page}>

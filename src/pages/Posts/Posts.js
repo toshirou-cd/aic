@@ -66,7 +66,7 @@ const Posts = (props) => {
 
   useEffect(() => {
     setError(false)
-    if(posts.length === 0) {
+    if(posts.length === 0 || !posts) {
       setLoading(true)
       getRandomPost(10,30).then(data => {
         setLoading(false)
@@ -92,6 +92,7 @@ const Posts = (props) => {
 }, [dateBoundary])
 
 
+  if(!posts || post.length === 0) return <div>Loading...</div>
   return (
     <div className="pageWrapper">
       <form
@@ -147,7 +148,10 @@ const Posts = (props) => {
             // handleLoadMore(dateBoundary)
           }}
           hasMore={hasMore}
-          >
+          sx={{
+            overFlow:"hidden",
+            width:"100%"
+          }}>
         <div className="postListContainter">
         {posts &&
           posts.map((item,index) => {

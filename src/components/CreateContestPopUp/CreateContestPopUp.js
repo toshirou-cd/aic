@@ -139,7 +139,7 @@ const CreateContestPopUp = (props) => {
     getPrizesList('',1,10,3).then(data => {
       if(data.statusCode === 200) {
         setPrizes(data.data)
-      }
+      } 
     })
 
   }, [openPopUp]);

@@ -5,6 +5,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import {getCollectionInfo } from '../../services/DashBoardService'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './DashBoard.css'
+import { minWidth } from '@mui/system';
 
 export const Darshboard = () => {
 
@@ -13,7 +14,10 @@ export const Darshboard = () => {
 
 
   const handleRate = (rate) => {
-    if(String(rate).charAt(0) === '-' ) return <div>{rate} '%' <ArrowDownwardIcon style={{color:'red'}}/></div>
+    if(String(rate).charAt(0) === '-' ) return 
+    <>
+        {rate} + "%+ " + <ArrowDownwardIcon style={{color:'red'}}/>
+    </>
     return <div style={{display:'inline-flex',alignItems:'center'}}>${rate}%  <ArrowUpwardIcon style={{color:'green'}}/> </div>
   }
 
@@ -41,9 +45,20 @@ export const Darshboard = () => {
                 <span className='widget'>
                   {data.postOfCurrentMonth.currentMonthCount}
                   </span>
-                <span className='widgetRate'>
-                  {handleRate(data.postOfCurrentMonth.percent)}
-                </span>
+                  <div className='widgetRate'>
+                <div style={{minWidth:"50px"}}>
+                  {data.aiOfCurrentMonth.percent} %
+                  </div>
+                {String(data.aiOfCurrentMonth.percent).charAt(0) === '-' ? 
+                  (
+                    <ArrowDownwardIcon style={{color:"red"}}/>
+                  ) 
+                  :
+                  (
+                    <ArrowUpwardIcon style={{color:"red"}}/>
+                  )
+                  }
+                </div>
             </div>
             <span className='widgetsub'>
               Compared to last month
@@ -54,12 +69,23 @@ export const Darshboard = () => {
                 Reported Post
             </span>
             <div className='widgetContainer'>
-            <span className='widget'>
-              {data.reportOfCurrentMonth.currentMonthCount}
-              </span>
-                <span className='widgetRate'>
-                {handleRate(data.reportOfCurrentMonth.percent)}
-                </span>
+            <div className='widget'>
+              {data.reportOfCurrentMonth.currentMonthCount} 
+              </div>
+                <div className='widgetRate'>
+                  <div style={{minWidth:"50px"}}>
+                  {data.reportOfCurrentMonth.percent} %
+                  </div>
+                {String(data.reportOfCurrentMonth.percent).charAt(0) === '-' ? 
+                  (
+                    <ArrowDownwardIcon style={{color:"red"}}/>
+                  ) 
+                  :
+                  (
+                    <ArrowUpwardIcon style={{color:"red"}}/>
+                  )
+                  }
+                </div>
             </div>
             <span className='widgetsub'>
               Compared to last month
@@ -73,9 +99,20 @@ export const Darshboard = () => {
             <span className='widget'>
               {data.aiOfCurrentMonth.currentMonthCount}
               </span>
-                <span className='widgetRate'>
-                {handleRate(data.aiOfCurrentMonth.percent)}
-                </span>
+                <div className='widgetRate'>
+                <div style={{minWidth:"50px"}}>
+                  {data.aiOfCurrentMonth.percent} %
+                  </div>
+                {String(data.aiOfCurrentMonth.percent).charAt(0) === '-' ? 
+                  (
+                    <ArrowDownwardIcon style={{color:"red"}}/>
+                  ) 
+                  :
+                  (
+                    <ArrowUpwardIcon style={{color:"red"}}/>
+                  )
+                  }
+                </div>
             </div>
             <span className='widgetsub'>
               Compared to last month

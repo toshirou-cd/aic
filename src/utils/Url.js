@@ -29,6 +29,8 @@ const BASE_URL = {
     getPrizesList : URL_API + 'prizes/getpageprize',
     addPrize : URL_API +'prizes/addprize',
     createContest : URL_API + 'contests/addcontest',
+    updateContest : URL_API + 'contests/updatecontest',
+    updatePrizeContest : URL_API + 'contests/updateprizecontest',
     getUserIncontest : URL_API + 'contests/getuserincontest',
     getContestDetail : URL_API + 'contests/getcontestdetailforadmin',
     activeContestManually : URL_API + 'contests/activecontestmanually',

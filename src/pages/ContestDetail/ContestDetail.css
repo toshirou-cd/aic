@@ -1,14 +1,28 @@
+/* .contestWrapper{
+    margin-left: 1rem;
+} */
 .detailShowing{
     display: grid;
-    grid-template-columns: 200px  10px 800px;
+    grid-template-columns: 100px  10px 600px;
+    grid-template-rows: auto;
     gap : 20px;
     font-weight: 300;
-    font: 0.7em sans-serif;
+    font: 1rem sans-serif;
+    margin-top: 1rem;
+    position: relative;
+    width: 100%;
+    padding-top: 10px;
 } 
-.postListWrapper {
+
+.post-list-wrapper {
     display: flex;
     flex-direction: column;
     
+}
+.tool-button{
+    position: absolute;
+    top:0;
+    right:0;
 }
 
 .topPostWrapper{
@@ -19,32 +33,50 @@
     font-size: 22px;
     font-weight: 500;
     display: inline-flex;
-    align-items: center;
+    align-items: flex-start;
+
 }
 
 .topPost{
     display: inline-grid;
 }
 .prizeWrapper{
-    display: flex;
-    flex-direction: column;
-    gap : 10px;
+    display: grid;
+    grid-template-columns: 100px 10px 50px 100px 500px;
+    /* gap : 10px; */
     position: relative;
     height: auto;
     min-height: 100% !important;
     width: 100%;
 }
-.prizeTitle{
+/* .prizeTitle{
     font-size: 22px;
     font-weight: 600;
-    display: flex;
-    align-items: center;
     margin-bottom: 10px;
-}
+    grid-column: 1/;
+} */
 .prize{
     display: flex;
     flex-direction: row;
-    font: 0.7em sans-serif;
-    font-weight: 300;
-    gap : 1rem
+    font: 1rem sans-serif;
+    align-items: center;
+    /* font-weight: 300; */
+    gap : 1.5rem;
+    row-gap: 1.5rem;
+    margin-bottom: 0.5rem;
+    min-height: 40px;
+}
+.value:disabled{
+    font-size: 1rem;
+    padding: 3px;
+    border: none;
+}
+.value:focus{
+    outline: none;
+}
+.value{
+    font-size: 1rem;
+    padding: 3px;
+    border: 1px solid #f0f0f0;
+    border-radius: 5px;
 }

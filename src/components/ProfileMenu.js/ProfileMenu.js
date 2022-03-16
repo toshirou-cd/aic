@@ -7,9 +7,10 @@ import authService from "../../services/auth";
 import { useDispatch,useSelector } from "react-redux";
 import { logout } from "../../redux/actions/authActions";
 import { useHistory } from "react-router-dom";
-import { Avatar } from "@mui/material";
+import { Avatar, IconButton } from "@mui/material";
 import altImg from '../../asset/image/image.png'
 import BASE_URL from "../../utils/Url";
+import AccountCircle from "@mui/icons-material/AccountCircle"
 
 
 const ProfileMenu = () => {
@@ -50,18 +51,23 @@ const ProfileMenu = () => {
         aria-expanded={open ? "true" : undefined}
         onClick={handleOnclick}
         // startIcon={<AccountCircleIcon/>}
+        disableRipple
         endIcon={<KeyboardArrowDownIcon />}
         color='primary'
         size='large'
         sx={{
             fontSize : '15px',
             fontWeight : '600',
-            color : '#050505'
+            color : '#050505',
+            display:"flex",
+            alignItems:"center",
+            gap:"5px"
         }
 
         }
       >
-        <Avatar src={`${BASE_URL.getAvatar}/${avatarName}`} alt={altImg} sx={{ width: 30, height: 30, marginRight:1 }}/>
+        <AccountCircle style={{ width: 30, height: 30, marginRight:1 }} />
+        {/* <Avatar src={`${BASE_URL.getAvatar}/${avatarName}`} alt={} sx={{ width: 30, height: 30, marginRight:1 }}/> */}
         {user.userName}
       </Button>
       <Menu

@@ -127,7 +127,7 @@ const ReportedPost = (props) => {
       background : 'white'
     }}>
       <div className="header">
-        <span style={{ fontSize:'20px', fontWeight:'500'}}>
+        <span style={{ fontSize:'20px', fontWeight:'700',fontSize:"20px"}}>
           Showing reported post by   
           </span>
         <Box sx={{minWidth : 100,

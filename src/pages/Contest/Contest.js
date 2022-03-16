@@ -240,6 +240,7 @@ const Contest = (props) => {
           style={{
             fontFamily: "sans-serif",
             fontWeight: "700",
+            fontSize : "20px"
           }}
         >
           Showing contests by
