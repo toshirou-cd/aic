@@ -125,6 +125,36 @@ export const getContest = async (searchName, page, pageSize, status , date_up, d
       console.log("Active contest error :" + err);
     });
   };
+  export const updateStatusPost = async (id ,status) => {
+    return await axiosApiInstance
+    .post(BASE_URL.updateContestPost, {
+      Id: id,
+      status: status
+    }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("Update status post error :" + err);
+    });
+  };
+  export const setAwardforUserInContest = async (id ,posts  ) => {
+    return await axiosApiInstance
+    .post(BASE_URL.setPrize, {
+      contest_id: id,
+      Posts: posts
+    }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("set prize  post error :" + err);
+    });
+  };
+
+
   export const finishContest = async (id ) => {
     return await axiosApiInstance
     .get(BASE_URL.finishContestManually, {params :{
@@ -168,6 +198,28 @@ export const getContest = async (searchName, page, pageSize, status , date_up, d
     })
     .catch((err) => {
       console.log("Update contest prizes error :" + err);
+    });
+  };
+
+  export const getPageContestPost = async (q, page,pageSize,status,contest_id,is_like_count_descending) => {
+    return await axiosApiInstance
+    .get(BASE_URL.getPageContestPost, {
+      params:
+      {
+        searchString: q,
+        currentPage: page,
+        postPerPage: pageSize,
+        status : status,
+        contestId : contest_id,
+        flag : is_like_count_descending
+      }
+    }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("get page contest posts error :" + err);
     });
   };
 

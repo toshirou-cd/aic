@@ -36,8 +36,13 @@ const BASE_URL = {
     activeContestManually : URL_API + 'contests/activecontestmanually',
     changeUserStatus : URL_API + 'users/changstatusaccountbyadmin',
     finishContestManually : URL_API +'contests/finishcontestmanually',
-    getDashboardInfo : URL_API + 'posts/collectinformation'
-    
+    getDashboardInfo : URL_API + 'posts/collectinformation',
+    getNotification : URL_API + 'notifications/getnotification',
+    getMoreNotification : URL_API + 'notifications/getmorenotification',
+    getPageContestPost : URL_API + 'contests/getpagecontestpost',
+    updateContestPost : URL_API + 'contests/uppdatestatuspost',
+    getPageContestForPrize : URL_API + 'contests/setprizeforuserincontest',
+    setPrize : URL_API +'contests/setprizeforuserincontest',
 }
 
 export default BASE_URL

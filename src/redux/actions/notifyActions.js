@@ -3,7 +3,10 @@ import { NOTIFY_DELETE_SUCCESSFULLY, CLOSE_NOTIFY,FORCE_LOG_OUT, NOTIFY_ERROR,
      NOTIFY_CREATE_CONTEST_SUCCESSFULLY,
      NOTIFY_ACTIVE_CONTEST_SUCCESSFULLY,
      NOTIFY_FINISH_CONTEST_SUCCESSFULLY,
-     NOTIFY_SUCCESSFULLY} from "../../utils/types";
+     NOTIFY_SUCCESSFULLY,
+     SHOW_NOTI_FROM_SERVER,
+     UNSHOW_NOTI_FROM_SERVER,
+     CLOSE_BADGE} from "../../utils/types";
 
 
 import React from 'react'
@@ -52,6 +55,22 @@ export const notifySuccessfully = (content) => {
     return {
         type : NOTIFY_SUCCESSFULLY,
         payload : content
+    }
+}
+export const showNotification = (content) => {
+    return {
+        type : SHOW_NOTI_FROM_SERVER,
+        payload : content
+    }
+}
+export const unShowNotification = () => {
+    return {
+        type : UNSHOW_NOTI_FROM_SERVER,
+    }
+}
+export const closeBadge = () => {
+    return {
+        type : CLOSE_BADGE,
     }
 }
 

@@ -3,6 +3,7 @@ import Navbar from './Navbar'
 import Topbar from './Topbar/Topbar'
 import useStyle  from '../hooks/useStyle'
 import Notification from './Notification'
+import NotiSnackbar from './NotiSnackbar'
 
 const AppLayout = ( props ) => {
     const { children, routerPath, navItems } = props;
@@ -28,6 +29,7 @@ const AppLayout = ( props ) => {
             </div>
 
             <Notification/>
+            <NotiSnackbar/>
         </div>
     )
 }
