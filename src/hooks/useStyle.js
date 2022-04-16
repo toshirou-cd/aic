@@ -7,7 +7,7 @@ export const useStyle = makeStyles((theme) => {
   return {
     page: {
       width: '100%',
-      height: '100vh',
+      minHeight: '100%',
       background: "#f9f9f9",
       padding : theme.spacing(3),
       marginTop:'50px'
@@ -20,7 +20,8 @@ export const useStyle = makeStyles((theme) => {
         width : drawerWidth,
     },
     root: {
-      display: 'flex'
+      display: 'flex',
+      // height:'100%'
     },
     listItem: {
       backgroundColor: "#f5f5f5",

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 import { getPrizesList } from '../services/ContestService'
 
-export const  usePrizeSearch = (searchName ,page , pageSize, status) => {
+export const  usePrizeSearch = (searchName ,page , pageSize, status,addprize,dialog) => {
     
     const [prizes, setPrizes] = useState([])
     const [prizeLoading, setPrizeLoading] = useState(false)
@@ -14,7 +14,7 @@ export const  usePrizeSearch = (searchName ,page , pageSize, status) => {
         setPrizeLoading(true)
         // let cancel
         // cancel = axios.CancelToken.source()
-        getPrizesList(searchName,page,pageSize,status).then((data) => {
+        getPrizesList(searchName,page,pageSize,3).then((data) => {
             if (data.data !== null) {
                 setPrizes(data.data)
                 setPrizeTotalRow(data.total)
@@ -24,6 +24,6 @@ export const  usePrizeSearch = (searchName ,page , pageSize, status) => {
             }
         })
         setPrizeLoading(false)
-    }, [searchName, status, pageSize, page])
+    }, [searchName, status, pageSize, page,addprize,dialog])
     return {prizes, prizeLoading, prizeTotalRow}
 }

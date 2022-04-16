@@ -53,8 +53,8 @@ export const sideBarItems = [
         icon: <NotificationImportantOutlinedIcon/>,
       },
       {
-        title: 'Manage Contest',
-        path: 'contest',
+        title: 'Manage Poll',
+        path: 'poll',
         icon: <CardGiftcardOutlinedIcon/>,
       }
   ];
@@ -105,12 +105,12 @@ const routes= [
   },
   {
     component: ContestDetail,
-    path: '/contest/:contestId',
+    path: '/poll/:contestId',
     isPrivate: true
   },
   {
     component: Contest,
-    path: '/contest',
+    path: '/poll',
     isPrivate: true
   },
 

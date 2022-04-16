@@ -78,7 +78,12 @@ const Login = () => {
         if(data.statusCode === 200) {
           dispatch(LoginSuccess(data.user))
           setLoading(false)
-          history.push('/admin')
+          if(data.user.role === "Admin") {
+            history.push('/admin')
+          } else {
+            history.push('/admin2')
+          }
+          
         } 
       }
       ).catch((err) => {

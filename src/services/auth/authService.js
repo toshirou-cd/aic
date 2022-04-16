@@ -33,7 +33,7 @@ export const Login = (username,password) => {
         return axiosApiInstance
         .post(BASE_URL.authenticate, {Username : username,Password:password})
         .then((res) => {
-            if(res.data.user.role !== 'Admin') throw new Error("User not found")
+            // if(res.data.user.role !== 'Admin' && res.data.user.role !== 'Admin2') throw new Error("User not found")
             if(res.data.data) {
                 localStorage.setItem("token",res.data.data)
                 localStorage.setItem("user",JSON.stringify(res.data.user))
@@ -45,6 +45,8 @@ export const Login = (username,password) => {
             }
 
             return res.data
+        }).catch(err => {
+          console.log( 'getting error while loggin in : ' + err)
         })
     }
 

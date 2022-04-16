@@ -22,6 +22,7 @@ import {notifyDeleteSucessFully} from "../../redux/actions/notifyActions";
 import { useDispatch } from "react-redux";
 import moment from "moment";
 import LoadingButton from "@mui/lab/LoadingButton"
+import { getContestDetail } from "../../services/ContestService";
 
 
 const useStyle = makeStyles({
@@ -51,7 +52,7 @@ const PostDetail = (props) => {
   })
 
   const history = useHistory()
-  
+  const [contestName,setContestName] = useState(null)
 
   const classes = useStyle();
 
@@ -110,6 +111,18 @@ const PostDetail = (props) => {
   
   }, [totalComment,post]);
 
+  useEffect(() => {
+    if(post.contest_id !== null ) {
+      getContestDetail(post.contest_id,2).then(res => {
+        if(res.statusCode === 200) {
+          setContestName(res.data.contest_name)
+        }
+      }).catch(err =>{
+        console.log('err getting contest name :' + err)
+      })
+    }
+  })
+
   if(!post) return <div>Loading...</div>
   return (
     <div className="classWrapper">
@@ -151,6 +164,13 @@ const PostDetail = (props) => {
           <IconButton>
             <FavoriteBorderOutlinedIcon /> {post.likecount}
           </IconButton>
+          {
+            contestName !== null &&
+          <span>
+            
+            Poll name : {contestName}
+          </span>
+          }
         </div>
         <div className="commentWrapper">
           Comments :

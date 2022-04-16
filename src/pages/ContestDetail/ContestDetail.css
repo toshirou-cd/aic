@@ -3,7 +3,7 @@
 } */
 .detailShowing{
     display: grid;
-    grid-template-columns: 100px  10px 600px;
+    grid-template-columns: 100px  10px 950px;
     grid-template-rows: auto;
     gap : 20px;
     font-weight: 300;
@@ -32,8 +32,9 @@
 .title{
     font-size: 22px;
     font-weight: 500;
-    display: inline-flex;
-    align-items: flex-start;
+    display: flex;
+    align-items: center;
+    /* align-items: flex-start; */
 
 }
 

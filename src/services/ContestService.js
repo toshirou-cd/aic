@@ -55,6 +55,22 @@ export const getContest = async (searchName, page, pageSize, status , date_up, d
       console.log("add prize  error :" + err);
     });
   };
+  export const updatePrize = async (id,stats,name ) => {
+    return await axiosApiInstance
+    .post(BASE_URL.updatePrize, 
+      {
+      Id: id,
+      status:stats ,
+      prize_name :name
+      }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("update prize  error :" + err);
+    });
+  };
 
 
 
@@ -222,5 +238,15 @@ export const getContest = async (searchName, page, pageSize, status , date_up, d
       console.log("get page contest posts error :" + err);
     });
   };
+
+  export const deleteContest = async(id) => {
+    return await axiosApiInstance.post(BASE_URL.deleteContest,{
+      contest_id : id
+    }).then(res => {
+      return res.data
+    }).catch(err => {
+      console.log('getting err in deleting contest : ' + err)
+    })
+  }
 
 

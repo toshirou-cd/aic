@@ -12,11 +12,22 @@
     margin-top: 10px;
 }
 .prizeContainter{
-    height: 400px;
-    width: 60%;
+    height: 450px;
+    /* width: 100%; */
     display: flex;
     flex-direction: column;
     gap: 10px
 }
 .detailButton{
 }
+.prizeContainterHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+/* .table-cell-trucate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  } */

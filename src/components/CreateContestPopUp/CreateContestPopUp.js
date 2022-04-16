@@ -156,7 +156,7 @@ const CreateContestPopUp = (props) => {
       disableEnforceFocus
     >
       <DialogTitle>
-        Create Contest
+        Create Poll
         <Divider />
       </DialogTitle>
       <DialogContent
@@ -167,7 +167,7 @@ const CreateContestPopUp = (props) => {
         <div className="contestInfo">
           <TextField
             id="standard-basic"
-            label=" Contest Name "
+            label=" Poll Name "
             variant="standard"
             className={classes.textField}
             required
@@ -181,7 +181,7 @@ const CreateContestPopUp = (props) => {
           />
           <TextField
             id="standard-basic"
-            label=" Contest Description "
+            label=" Poll Description "
             variant="standard"
             className={classes.textField}
             required

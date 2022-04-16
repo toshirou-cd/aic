@@ -27,7 +27,7 @@ export const NavbarData = [
     icon: <NotificationImportantOutlinedIcon/>,
   },
   {
-    title: 'Manage Contest',
+    title: 'Manage Poll',
     path: '/contest',
     icon: <CardGiftcardOutlinedIcon/>,
   }

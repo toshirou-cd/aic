@@ -1,5 +1,7 @@
 import { DataGrid } from "@material-ui/data-grid";
-import { Divider, IconButton, Stack } from "@mui/material";
+import { Divider, IconButton, Stack } from "@mui/material"
+import PropTypes from "prop-types";
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -37,6 +39,7 @@ import { RemoveCircle, RemoveCircleOutline, Rtt } from "@mui/icons-material";
 import { usePrizeSearch } from "../../hooks/usePrizeSearch";
 import CheckIcon from '@mui/icons-material/Check';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import GridCellExpand from "../../components/GridCellExpand";
 
 const ContestDetail = (props) => {
   const [users, setUsers] = useState([]);
@@ -69,6 +72,25 @@ const ContestDetail = (props) => {
   const [totalPagePosts, setTotalPagePosts] = useState(0);
   const [top, setTop] = useState([]);
   const [isSetAward,setIsSetAward ] = useState(false);
+  renderCellExpand.propTypes = {
+    /**
+     * The column of the row that the current cell belongs to.
+     */
+    colDef: PropTypes.object.isRequired,
+    /**
+     * The cell value, but if the column has valueGetter, use getValue.
+     */
+    value: PropTypes.string.isRequired,
+  };
+
+  function renderCellExpand(params) {
+    return (
+      <GridCellExpand
+        value={params.value || ""}
+        width={params.colDef.computedWidth}
+      />
+    );
+  }
   const columns = [
   {
       field: "post_id",
@@ -114,11 +136,13 @@ const ContestDetail = (props) => {
       headerName: "Post caption ",
       sortable:false,
       width: 250,
+      renderCell : renderCellExpand
     },
     {
       field: "likecount",
       headerName: "Likes",
       sortable: false,
+      align:"center",
       width: 100,
       renderCell : params => (
         <div style={{width:'100%',display:'flex',justifyContent:'center'}}>
@@ -185,7 +209,7 @@ const ContestDetail = (props) => {
           onClick={() => setConfirmDialog({
             isOpen:true,
             title: 'Are you sure you want to accept this post ?',
-            subTitle : 'After accept, this post will be present on this contest ',
+            subTitle : 'After accept, this post will be present on this poll ',
             onConfirm : () => handleUpdatePostStatus(params.row.post_id,3)
           })}
           >
@@ -249,7 +273,7 @@ const ContestDetail = (props) => {
           ...confirmDialog,
           isOpen : false
         })
-        dispatch(notifyActiveContestSuccessfully())
+        dispatch(notifySuccessfully("Active poll successfully !"))
       } else {
         setConfirmDialog({
           ...confirmDialog,
@@ -269,7 +293,7 @@ const ContestDetail = (props) => {
           ...confirmDialog,
           isOpen : false
         })
-        dispatch(notifyFinishContestSuccessfully())
+        dispatch(notifySuccessfully("Finished Poll !"))
       } else {
         setConfirmDialog({
           ...confirmDialog,
@@ -417,6 +441,7 @@ const ContestDetail = (props) => {
           <Chip
             label={data.status === 1 ? `${handleTimeLeft(data.time_left)} to active` : data.time_left}
             color="error"
+            
           />
         </Stack>
         }
@@ -492,7 +517,7 @@ const ContestDetail = (props) => {
           }
           
           </div>
-          <div>Contest name  </div>
+          <div>Poll  name  </div>
           <div>: </div>
           <input type="text" 
             className="value"
@@ -581,10 +606,15 @@ const ContestDetail = (props) => {
                          
                         </div>
                 {
-                  addPrize === false ?
-                  <button style={{width:'100%',border:'1px dashed gray',cursor:'pointer',padding:'0.25rem'}}
-                          onClick={() => setAddPrize(!addPrize)}
-                  >
+                  ((getMessageCode(data.status) === 'Present' && data.contest_active === 0) ||
+                  getMessageCode(data.status) === 'Request')  &&
+                  <>
+                  {
+
+                    addPrize === false ?
+                    <button style={{width:'100%',border:'1px dashed gray',cursor:'pointer',padding:'0.25rem'}}
+                    onClick={() => setAddPrize(!addPrize)}
+                    >
                              + Add more prize
                         </button>
                   :
@@ -600,16 +630,16 @@ const ContestDetail = (props) => {
             marginLeft: "10px",
             
           }}
-        >
+          >
           <FormControl fullWidth>
             <Select
               value={prize.id}
               label="Status"
               onChange={(e) => {
-                  setPrize({
-                    top: data.prizes.length + 1,
-                    prize_id : e.target.value
-                  })
+                setPrize({
+                  top: data.prizes.length + 1,
+                  prize_id : e.target.value
+                })
               }}
               variant="standard"
               sx={{
@@ -617,11 +647,11 @@ const ContestDetail = (props) => {
                 ":after": { borderBottomColor: "#ff8640" },
               }}  
               fullWidth
-            >
+              >
                 {
-              prizes.map((val) => (
-                <MenuItem value={val.id} fullWidth> {val.prize_name}</MenuItem>
-              ))}
+                  prizes.map((val) => (
+                    <MenuItem value={val.id} fullWidth> {val.prize_name}</MenuItem>
+                    ))}
               {/* <MenuItem value={5}> Inactivate</MenuItem>
               <MenuItem value={9}> Blocking</MenuItem> */}
             </Select>
@@ -631,6 +661,8 @@ const ContestDetail = (props) => {
         <Button onClick={() => setAddPrize(false)}>Cancel</Button>
                     </div>
                   )
+                }
+              </>
                 }
           </div>
         </div>
@@ -710,7 +742,7 @@ const ContestDetail = (props) => {
           </FormControl>
         </Box>
         <div style={{position:'absolute',top:0, right:'0.5rem'}}>
-            { data.isPrized === 0 &&
+            { (data.isPrized === 0  && data.contest_active === 1) &&
               <>
               {
               !isSetAward ?
@@ -781,10 +813,10 @@ const ContestDetail = (props) => {
       <div>
         <div className="post-list-wrapper">
           <div className="topPostWrapper">
-            <div className="title"><EmojiEventsIcon/> Top 3 post : </div>
+            <div className="title"><EmojiEventsIcon/> Top post get prize : </div>
             <div className="topPost">
               {
-                data.top_ThreePosts && (
+                (data.top_ThreePosts && data.isPrized === 1 ) ? (
                   data.top_ThreePosts.map((item) => (
                     <>
                       <div
@@ -811,14 +843,18 @@ const ContestDetail = (props) => {
                     </>
                   ))
                   ) 
-
+                : (
+                  <div style={{ fontWeight: "600", color: "#C0C0C0",display:'flex',justifyContent:'center' }}>
+                  There are no post getting prize  !
+                </div>
+                )
               }
             </div>
           </div>
           <Divider /> 
           <div className="norPostWrapper">
 
-          { 
+          {/* { 
           posts !== null ? (
             posts.map((item) => (
               <>
@@ -851,7 +887,7 @@ const ContestDetail = (props) => {
             <div style={{ fontWeight: "600", color: "#C0C0C0",display:'flex',justifyContent:'center' }}>
               There hasn't post here !
             </div>
-                  }
+                  } */}
           {/* <PostDetailPopUp openPopUp={openPopUp} setOpenPopUp={setOpenPopUp}>
                   <PostDetail post={post} setOpenPopUp={setOpenPopUp} isNormal={true}/>
                 </PostDetailPopUp> */}

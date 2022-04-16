@@ -45,7 +45,11 @@ const Account = (props) => {
   const [searchInput, setSearchInput] = useState('')
   const typingTimeoutRef = useRef(null)
   const columns = [
-    { field: "id", headerName: "ID", width: 100 },
+    { field: "id", headerName: "ID", width: 100 ,
+    renderCell: (params) =>
+    accounts.map((acct) => acct.id).indexOf(params.row.id) + 1,
+    
+  },
     { field: "user_name", headerName: "Account name", width: 180 },
     {
       field: "user_real_name",
@@ -102,9 +106,9 @@ const Account = (props) => {
                 Detail
               </button>
             </Link>
-            <IconButton aria-label="delete">
+            {/* <IconButton aria-label="delete">
               <PowerSettingsNewOutlinedIcon />
-            </IconButton>
+            </IconButton> */}
           </div>
         );
       },
@@ -140,7 +144,7 @@ const Account = (props) => {
   return (
     <div
       style={{
-        height: "80%",
+        height: "100%",
         width: "100%",
         backgroundColor: "white",
         padding: "0 10 0 10",
@@ -215,25 +219,28 @@ const Account = (props) => {
         </Paper>
         </form>
       </div>
+      <div style={{
+        height:'550px'
+      }}>
 
       <DataGrid
       rowCount={totalRow}
-        rows={accounts}
-        columns={columns}
-        pageSize={pageSize}
-        page={page - 1}
-        rowsPerPageOptions={pageSizeOption}
-        checkboxSelection 
-        className={style.rowSelected}
-        disableSelectionOnClick={true}
-        pagination
-        paginationMode="server"
-        onPageChange={(page) => setPage(page + 1)}
-        onPageSizeChange={(size) => setPageSize(size)}
-        loading={loading}
-        components={{
-          NoRowsOverlay: () => (
-            <Stack height="100%" alignItems="center" justifyContent="center">
+      rows={accounts}
+      columns={columns}
+      pageSize={pageSize}
+      page={page - 1}
+      rowsPerPageOptions={pageSizeOption}
+      checkboxSelection 
+      className={style.rowSelected}
+      disableSelectionOnClick={true}
+      pagination
+      paginationMode="server"
+      onPageChange={(page) => setPage(page + 1)}
+      onPageSizeChange={(size) => setPageSize(size)}
+      loading={loading}
+      components={{
+        NoRowsOverlay: () => (
+          <Stack height="100%" alignItems="center" justifyContent="center">
               <h3>
               No result finding reported post
               </h3>
@@ -250,7 +257,8 @@ const Account = (props) => {
             </Stack>
           }
         }}
-      />
+        />
+        </div>
     </div>
   );
 };

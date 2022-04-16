@@ -16,6 +16,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { addPrize, updatePrize } from "../../services/ContestService";
 import { useDispatch } from "react-redux";
 import { notifyError, notifySuccessfully } from "../../redux/actions/notifyActions";
+import { addCategories, updateCategories } from "../../services/ReportedPostServices";
 
 
 const useStyles = makeStyles(theme => ({
@@ -32,36 +33,36 @@ const useStyles = makeStyles(theme => ({
     }
 })
 )
-const AddPrizePopUp = (props) => {
-  const { addPrizePopUp, setAddPrizePopUp } = props;
+const AddCategoryPopUp = (props) => {
+  const { addCategoryPopUp , setAddCategoryPopUp } = props;
 
-  const [prize, setPrize] = useState()
+  const [category, setCategory] = useState()
   const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
   //handle add prize 
-  const addMorePrize = () => {
+  const addMoreCategory = () => {
       setLoading(true)
-      addPrizePopUp.type === 'create' ? (
+      addCategoryPopUp.type === 'create' ? (
 
-        addPrize(prize).then(res => {
+        addCategories(category).then(res => {
           if(res.statusCode === 200) {
-            dispatch(notifySuccessfully("Add prize successfully"))
-            setAddPrizePopUp({...addPrizePopUp, isOpen: false})
+            dispatch(notifySuccessfully("Add category successfully"))
+            setAddCategoryPopUp({...addCategoryPopUp, isOpen: false})
           }
           else {
             dispatch(notifyError())
         }
-        setAddPrizePopUp({...addPrizePopUp, isOpen: false})
+        setAddCategoryPopUp({...addCategoryPopUp, isOpen: false})
       }).catch(err => {
-        console.log("pop up add price err" + err)
+        console.log("pop up add category err" + err)
       })
        ) : (
-      updatePrize(addPrizePopUp.id,0,prize).then(res =>{
+      updateCategories(addCategoryPopUp.id,category,0).then(res =>{
         if(res.statusCode === 200) {
-          setAddPrizePopUp({...addPrizePopUp, isOpen: false})
+          setAddCategoryPopUp({...addCategoryPopUp, isOpen: false})
           dispatch(notifySuccessfully('Updated Prize'))
         } else {
-          setAddPrizePopUp({...addPrizePopUp, isOpen: false})
+          setAddCategoryPopUp({...addCategoryPopUp, isOpen: false})
           dispatch(notifyError())
         }
       })
@@ -71,8 +72,8 @@ const AddPrizePopUp = (props) => {
     
     
   const handleOnclose = () => {
-    setAddPrizePopUp({
-      ...addPrizePopUp,
+    setAddCategoryPopUp({
+      ...addCategoryPopUp,
       isOpen: false,
     });
   };
@@ -80,32 +81,32 @@ const AddPrizePopUp = (props) => {
   const classes = useStyles()
 
   return (
-    <Dialog open={addPrizePopUp.isOpen} onClose={handleOnclose} classes={{paper : classes.dialog}}>
+    <Dialog open={addCategoryPopUp.isOpen} onClose={handleOnclose} classes={{paper : classes.dialog}}>
       <DialogTitle>
         <Typography variant="h6" className={classes.dialogTitle}>
 
-          {addPrizePopUp.type === 'create' ? <>
-          <AddBoxIcon /> Add prize
+          {addCategoryPopUp.type === 'create' ? <>
+          <AddBoxIcon /> Add Category
           </>
            : 
            <>
-           <EditIcon/> Edit Prize
+           <EditIcon/> Edit Category
            </>}
         </Typography>
       </DialogTitle>
       <DialogContent>
-      <TextField variant='outlined' size='small' placeholder="Prize name" sx={{width: "100%",border:'none'}}
-      value={prize}
-                                                onChange={e => setPrize(e.target.value)}
+      <TextField variant='outlined' size='small' placeholder="Category name" sx={{width: "100%",border:'none'}}
+      value={category}
+                                                onChange={e => setCategory(e.target.value)}
                                                 
                                                 />
       </DialogContent>
       <DialogActions>
-        <Button color="primary" onClick={() => {addMorePrize()}} disabled={loading}>Save</Button>
+        <Button color="primary" onClick={() => {addMoreCategory()}} disabled={loading}>Save</Button>
         <Button color="secondary" onClick={handleOnclose} disabled={loading}>Cancel</Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default AddPrizePopUp;
+export default AddCategoryPopUp;

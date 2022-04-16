@@ -170,14 +170,20 @@ const UserProfile = () => {
               top: "5px",
             }}
           >
-            <Tooltip title="Edit email">
+            {/* <Tooltip title="Edit email">
               <IconButton onClick={() => setOpenPopUp(true)}>
                 <EditIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
 
             <Tooltip title="Force log out">
-              <IconButton onClick={() => forceUserLogout()}>
+              <IconButton onClick={() => setConfirmDialog({
+                isOpen:true,
+                title :'Are you sure you want to force this account to log out ?',
+                subTitle : 'Your action will log this user out from the system immediately ',
+                onConfirm : () => forceUserLogout()
+              })
+                }>
                 <LogoutIcon />
               </IconButton>
             </Tooltip>

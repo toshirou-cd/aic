@@ -27,14 +27,19 @@
 .detailWrapper {
   display: grid;
   grid-template-columns: 350px;
-  grid-template-rows: 50px 12px 50px;
+  grid-template-rows: 50px 12px auto;
   /* row-gap: 0.5rem; */
 }
 
 .toolWrapper {
   display: flex;
   justify-content: left;
+  align-items: flex-start;
   padding: 0;
+  flex-direction: column;
+  font: caption;
+  font-weight: 600;
+  cursor: pointer;
 }
 .showUserName {
   font-size: 20px;
@@ -69,6 +74,9 @@
   font-style: italic;
   font-size: 20px;
   font-weight: 350;
+  height: fit-content;
+  margin-bottom: 5px;
+
 }
 .commentWrapper {
 }

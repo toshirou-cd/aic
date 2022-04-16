@@ -53,6 +53,8 @@ export const getReportCategory = async () => {
       });
   };
 
+  
+
 
   
   // axios.interceptors.request.use(
@@ -109,4 +111,49 @@ export const getReportCategory = async () => {
     .catch((err) => {
       console.log("Update  reported  error :" + err);
     });
+  };
+
+  export const getCateorieslist = async (q,page,pageSize,status) => {
+    return await axiosApiInstance
+    .get(BASE_URL.getPageCategories, {
+      params : {
+        searchname : q ,
+        currentPage: page,
+        productPerPage : pageSize,
+        status : status
+      }
+    }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("Get categories list error :" + err);
+    });
+  };
+  export const addCategories = ( category) => {
+    return axiosApiInstance
+      .post(BASE_URL.addCategories, {
+             category_name : category,
+      })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        console.log("Add category error :" + err);
+      });
+  };
+  export const updateCategories = ( id,name,status) => {
+    return axiosApiInstance
+      .post(BASE_URL.updateCategories, {
+             Id : id,
+             category_name : name,
+             status : status
+      })
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        console.log("Update category error :" + err);
+      });
   };

@@ -43,6 +43,11 @@ const BASE_URL = {
     updateContestPost : URL_API + 'contests/uppdatestatuspost',
     getPageContestForPrize : URL_API + 'contests/setprizeforuserincontest',
     setPrize : URL_API +'contests/setprizeforuserincontest',
+    updatePrize : URL_API + 'prizes/updateprize',
+    deleteContest : URL_API + 'contests/deletecontest',
+    getPageCategories : URL_API + 'categories/getpagecategory',
+    addCategories : URL_API + 'categories/addcategory',
+    updateCategories : URL_API + 'categories/updatecategory'
 }
 
 export default BASE_URL

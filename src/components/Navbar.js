@@ -16,11 +16,13 @@ import useStyle from "../hooks/useStyle";
 import { Redirect, useLocation,Link } from 'react-router-dom';
 import { NavbarData } from "./NavbarData";
 import ListItemButton from "@mui/material/ListItemButton";
+import { useSelector } from "react-redux";
 
 const Navbar = (props) => {
   const [isSelected, setIsSelected] = useState(false);
   const classes = useStyle();
   const location = useLocation();
+  const auth = useSelector(state => state.AuthReducer)
   return (
     <Drawer
       className={classes.drawerWidth  }
@@ -36,13 +38,14 @@ const Navbar = (props) => {
       >
       <Typography
         className={classes.logo}
-        variant="h4"
+        variant="h5"
         sx={{
           fontWeight: "900",
           color: 'white'
         }}
         >
-        AICS Admin
+          {auth.user.role === 'Admin' ? 'ISMAIA Manager' : 'ISMAIA Admin'}
+        
       </Typography>
       <Divider />
       <List>
