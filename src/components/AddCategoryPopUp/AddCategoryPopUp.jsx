@@ -17,6 +17,7 @@ import { addPrize, updatePrize } from "../../services/ContestService";
 import { useDispatch } from "react-redux";
 import { notifyError, notifySuccessfully } from "../../redux/actions/notifyActions";
 import { addCategories, updateCategories } from "../../services/ReportedPostServices";
+import messageCode from "../../utils/messageCode";
 
 
 const useStyles = makeStyles(theme => ({
@@ -50,7 +51,7 @@ const AddCategoryPopUp = (props) => {
             setAddCategoryPopUp({...addCategoryPopUp, isOpen: false})
           }
           else {
-            dispatch(notifyError())
+            dispatch(notifyError(messageCode(res.messageCode)))
         }
         setAddCategoryPopUp({...addCategoryPopUp, isOpen: false})
       }).catch(err => {
@@ -63,7 +64,7 @@ const AddCategoryPopUp = (props) => {
           dispatch(notifySuccessfully('Updated Prize'))
         } else {
           setAddCategoryPopUp({...addCategoryPopUp, isOpen: false})
-          dispatch(notifyError())
+          dispatch(notifyError(messageCode(res.messageCode)))
         }
       })
        )

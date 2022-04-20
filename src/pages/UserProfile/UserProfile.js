@@ -1,44 +1,34 @@
-import React, { useState, useEffect } from "react";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
-import "./UserProfile.css";
-import img from "../../asset/image/image.png";
-import {
-  Button,
-  ButtonGroup,
-  Icon,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Tooltip } from "@material-ui/core";
 import EmailIcon from "@mui/icons-material/Email";
-import BlockIcon from "@mui/icons-material/Block";
+import LockIcon from "@mui/icons-material/Lock";
+import LogoutIcon from "@mui/icons-material/Logout";
 import PhoneIcon from "@mui/icons-material/Phone";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import PostList from "../../components/PostList/PostList";
 import {
-  deleteAccount,
-  forceLogout,
-  getAccountDetail,
-  updateAccount,
-} from "../../services/account/account";
+  ButtonGroup, IconButton
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import altAvatar from "../../asset/image/image.png";
-import BASE_URL from "../../utils/Url";
-import { getMessageCode } from "../../utils/contanst";
-import { useDispatch } from "react-redux";
-import Notification from "../../components/Notification";
+import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
+import PostList from "../../components/PostList/PostList";
+import UpdateUserInfoForm from "../../components/UpdateUserInfoForm/UpdateUserInfoForm";
 import {
   forceLogoutSuccess,
   notifyDeleteSucessFully,
   notifyError,
-  notifyUpdateSucessfully,
+  notifyUpdateSucessfully
 } from "../../redux/actions/notifyActions";
-import { Tooltip } from "@material-ui/core";
-import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
-import UpdateUserInfoForm from "../../components/UpdateUserInfoForm/UpdateUserInfoForm";
-import LockIcon from "@mui/icons-material/Lock";
-import LogoutIcon from "@mui/icons-material/Logout";
+import {
+  deleteAccount,
+  forceLogout,
+  getAccountDetail,
+  updateAccount
+} from "../../services/account/account";
+import { getMessageCode } from "../../utils/contanst";
+import messageCode from "../../utils/messageCode";
+import BASE_URL from "../../utils/Url";
+import "./UserProfile.css";
 
 const UserProfile = () => {
   const [user, setUser] = useState([]);
@@ -56,18 +46,22 @@ const UserProfile = () => {
 
   const forceUserLogout = () => {
     forceLogout(user.id).then((res) => {
-      if (res === 200) {
+      if (res.statusCode === 200) {
+        setConfirmDialog({
+          ...confirmDialog,
+          isOpen: false
+        })
         dispatch(forceLogoutSuccess());
       } else {
-        dispatch(notifyError());
+        dispatch(notifyError(messageCode(res.messageCode)));
       }
     });
   };
 
   // delete account
   const handleDeleteAccount = () => {
-    deleteAccount(id).then((data) => {
-      if (data === 200) {
+    deleteAccount(id).then((res) => {
+      if (res.statusCode === 200) {
         setConfirmDialog({
           ...confirmDialog,
           isOpen: false,
@@ -79,15 +73,15 @@ const UserProfile = () => {
           ...confirmDialog,
           isOpen: false,
         });
-        dispatch(notifyError());
+        dispatch(notifyError(messageCode(res.messageCode)));
       }
     });
   };
 
   // update account
   const handleUpdateAccount = () => {
-    updateAccount(id, 3).then((data) => {
-      if (data === 200) {
+    updateAccount(id, 3).then((res) => {
+      if (res.statusCode === 200) {
         setConfirmDialog({
           ...confirmDialog,
           isOpen: false,
@@ -98,7 +92,7 @@ const UserProfile = () => {
           ...confirmDialog,
           isOpen: false,
         });
-        dispatch(notifyError());
+        dispatch(notifyError(messageCode(res.messageCode)));
       }
     });
   };

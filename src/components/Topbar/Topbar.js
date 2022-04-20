@@ -40,6 +40,7 @@ const Topbar = () => {
 
 
   const notification = useSelector(state => state.SignalrReducer)
+  const auth = useSelector(state => state.AuthReducer)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -107,6 +108,10 @@ const Topbar = () => {
         }}
       >
         <Typography className={classes.blankSpace}></Typography>
+        {
+            (auth.user.role === "Admin") &&
+            <>
+            
         <Badge color="error" variant="dot" invisible={notification.badgeInvisible}>
           <IconButton
             onClick={handleClick}
@@ -119,6 +124,8 @@ const Topbar = () => {
             <NotificationsIcon sx={{ color: "black" }} />
           </IconButton>
         </Badge>
+        
+        
         <Menu
           anchorEl={anchorEl}
           id="account-menu"
@@ -173,6 +180,8 @@ const Topbar = () => {
             <MenuItem>There is no notification yet</MenuItem>
           )}
         </Menu>
+        </>
+      }
         <ProfileMenu />
       </Toolbar>
       {/* </Box> */}

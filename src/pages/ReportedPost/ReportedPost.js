@@ -1,22 +1,22 @@
-import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Tooltip} from "@mui/material";
-import Select from '@mui/material/Select'
 import { DataGrid } from "@material-ui/data-grid";
-import { Pagination, Stack } from "@mui/material";
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { getReportCategory, getReportedPostList, updateCategories } from "../../services/ReportedPostServices";
-import { DataArray, RemoveCircle } from "@mui/icons-material";
-import { useReportPostGet } from "../../hooks/usePostsLoading";
-import { getMessageCode } from "../../utils/contanst";
-import { convertDateTime } from "../../utils/tool";
-import { useCategorySearch } from "../../hooks/useCategorySearch";
-import EditIcon from "@mui/icons-material/Edit";
+import { RemoveCircle } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
-import moment from 'moment'
-import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
+import EditIcon from "@mui/icons-material/Edit";
+import { Box, Button, FormControl, IconButton, MenuItem, Stack, Tooltip } from "@mui/material";
+import Select from '@mui/material/Select';
+import moment from 'moment';
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { notifyError, notifySuccessfully } from "../../redux/actions/notifyActions";
+import { Link } from "react-router-dom";
 import AddCategoryPopUp from "../../components/AddCategoryPopUp/AddCategoryPopUp";
+import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
+import { useCategorySearch } from "../../hooks/useCategorySearch";
+import { useReportPostGet } from "../../hooks/usePostsLoading";
+import { notifyError, notifySuccessfully } from "../../redux/actions/notifyActions";
+import { getReportCategory, updateCategories } from "../../services/ReportedPostServices";
+import { getMessageCode } from "../../utils/contanst";
+import messageCode from "../../utils/messageCode";
+import { convertDateTime } from "../../utils/tool";
 
 
 const ReportedPost = (props) => {
@@ -248,7 +248,7 @@ const ReportedPost = (props) => {
           ...confirmDialog,
           isOpen : false
         })
-        dispatch(notifyError())
+        dispatch(notifyError(messageCode(res.messageCode)))
       }
     })
   }

@@ -47,7 +47,10 @@ const BASE_URL = {
     deleteContest : URL_API + 'contests/deletecontest',
     getPageCategories : URL_API + 'categories/getpagecategory',
     addCategories : URL_API + 'categories/addcategory',
-    updateCategories : URL_API + 'categories/updatecategory'
+    updateCategories : URL_API + 'categories/updatecategory',
+    getManagerAccount : URL_API + 'users/getmanageraccountforadmin',
+    createManagerAccount : URL_API + 'users/createmanagerbyadmin',
+    changeManagerPassword : URL_API + 'users/resetmanagerpassword'
 }
 
 export default BASE_URL

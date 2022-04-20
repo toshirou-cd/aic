@@ -26,9 +26,10 @@ export const forceLogoutSuccess = () => {
         type : FORCE_LOG_OUT
     }
 }
-export const notifyError = () => {
+export const notifyError = ( message) => {
     return {
-        type : NOTIFY_ERROR
+        type : NOTIFY_ERROR,
+        payload : message
     }
 }
 export const notifyUpdateSucessfully = () => {

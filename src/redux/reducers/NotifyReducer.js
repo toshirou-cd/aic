@@ -28,11 +28,10 @@ export const NotifyReducer = (state = initialState, action) => {
     }
 
     case NOTIFY_ERROR : 
-      console.log('toi day roi ne')
       return {
         isOpen : true,
-        message : 'Action failure',
-        type :'error'
+        message : action.payload,
+        type :'error',
     }
     case NOTIFY_UPDATE_SUCCESSFULLY :
         return {

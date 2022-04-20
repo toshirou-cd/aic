@@ -71,7 +71,7 @@ export const forceLogout = (id) => {
     })
 
     .then((res) => {
-      return res.data.statusCode;
+      return res.data;
     })
     .catch((err) => {
       console.log("Error forcing log out :" + err);
@@ -84,7 +84,7 @@ export const deleteAccount = (id) => {
     })
 
     .then((res) => {
-      return res.data.statusCode;
+      return res.data
     })
     .catch((err) => {
       console.log("Error delete account :" + err);
@@ -99,10 +99,10 @@ export const updateAccount = (id,status) => {
     })
 
     .then((res) => {
-      return res.data.statusCode;
+      return res.data;
     })
     .catch((err) => {
-      console.log("Error delete account :" + err);
+      console.log("Error update account :" + err);
     });
 };
 

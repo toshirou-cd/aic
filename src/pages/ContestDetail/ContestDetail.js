@@ -40,6 +40,7 @@ import { usePrizeSearch } from "../../hooks/usePrizeSearch";
 import CheckIcon from '@mui/icons-material/Check';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import GridCellExpand from "../../components/GridCellExpand";
+import messageCode from "../../utils/messageCode";
 
 const ContestDetail = (props) => {
   const [users, setUsers] = useState([]);
@@ -250,10 +251,14 @@ const ContestDetail = (props) => {
     setLoading(true);
     getPostDetail(post_id, 3)
       .then((res) => {
-        setPost(res.data);
+        if(res.statusCode === 200) {
+          setPost(res.data);
+        } else {
+          dispatch(notifyError(messageCode(res.messageCode)))
+        }
       })
       .catch((err) => {
-        dispatch(notifyError());
+        dispatch(notifyError("Something went wrong"));
       });
     // setOpenPopUp(true)
     console.log("click detail");
@@ -279,10 +284,10 @@ const ContestDetail = (props) => {
           ...confirmDialog,
           isOpen: false,
         });
-        dispatch(notifyError());
+        dispatch(notifyError(messageCode(res.messageCode)));
       }
     }).catch(() => {
-      dispatch(notifyError());
+      dispatch(notifyError("Something went wrong !"));
     })
   }
   // handle finish contest 
@@ -299,10 +304,10 @@ const ContestDetail = (props) => {
           ...confirmDialog,
           isOpen: false,
         });
-        dispatch(notifyError());
+        dispatch(notifyError(messageCode(res.messageCode)));
       }
     }).catch(() => {
-      dispatch(notifyError());
+      dispatch(notifyError("Something went wrong !"));
     })
   }
 
@@ -314,7 +319,7 @@ const ContestDetail = (props) => {
           dispatch(notifySuccessfully("Update contest successfully"))
           setIsEdit(false)
         } else {
-          dispatch(notifyError())
+          dispatch(notifyError(messageCode(res.messageCode)))
         }
       })
       
@@ -339,7 +344,7 @@ const ContestDetail = (props) => {
           ...confirmDialog,
           isOpen : false
         })
-        dispatch(notifyError())
+        dispatch(notifyError(messageCode(res.messageCode)))
       }
     })
   }
@@ -361,7 +366,7 @@ const ContestDetail = (props) => {
           ...confirmDialog,
           isOpen : false
         })
-        dispatch(notifyError())
+        dispatch(notifyError(messageCode(res.messageCode)))
       }
     })
     setAddPrize(false)
@@ -377,7 +382,7 @@ const ContestDetail = (props) => {
           isOpen:false
         })
       } else {
-        dispatch(notifyError())
+        dispatch(notifyError(messageCode(res.messageCode)))
       }
     })
   }
@@ -391,7 +396,7 @@ const ContestDetail = (props) => {
           isOpen:false
         })
       } else {
-        dispatch(notifyError())
+        dispatch(notifyError(messageCode(res.messageCode)))
       }
     })
   }

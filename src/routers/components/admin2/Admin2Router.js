@@ -21,6 +21,8 @@ import Account from "../../../pages/Account/Account";
 import Setting from '../../../pages/Admin2/Setting';
 import { Darshboard } from "../../../pages/Dashboard/DarshBoard";
 import RouterRender from "../../RouterRender";
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import ManagerAccount from '../../../pages/Admin2/ManagerAccount/ManagerAccount';
 
 export const admin2SideBarItems = [  
     //  {
@@ -33,11 +35,11 @@ export const admin2SideBarItems = [
     //     path: 'prizes',
     //     icon: <EmojiEventsOutlinedIcon/>,
     //   },
-    //   {
-    //     title: 'Dash board',
-    //     path: 'categories',
-    //     icon: <CategoryOutlinedIcon/>,
-    //   },
+      {
+        title: 'Manager Account',
+        path: 'account',
+        icon: <ManageAccountsOutlinedIcon/>,
+      },
       {
         title: 'Setting',
         path: 'setting',
@@ -54,8 +56,8 @@ const routes= [
     isPrivate: true
   },
   {
-    component: Darshboard,
-    path: '/categories',
+    component: ManagerAccount,
+    path: '/account',
     isPrivate: true
   },
 {

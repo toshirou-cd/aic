@@ -31,6 +31,7 @@ import { RemoveCircle } from "@mui/icons-material";
 import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
 import { useDispatch } from "react-redux";
 import { notifyError, notifySuccessfully } from "../../redux/actions/notifyActions";
+import messageCode from "../../utils/messageCode";
 
 const Contest = (props) => {
   const history = useHistory();
@@ -319,7 +320,8 @@ const Contest = (props) => {
           ...confirmDialog,
           isOpen : false
         })
-        dispatch(notifyError())
+        console.log('message Cod : ' + res.messageCode)
+        dispatch(notifyError(messageCode(res.messageCode)))
       }
     })
   }
@@ -338,7 +340,7 @@ const Contest = (props) => {
           ...confirmDialog,
           isOpen: false
         })
-        dispatch(notifyError())
+        dispatch(notifyError(messageCode(res.messageCode)))
       }
     })
   }
