@@ -18,11 +18,12 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import { makeStyles } from "@material-ui/core";
 import Tooltip from '@mui/material/Tooltip';
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
-import {notifyDeleteSucessFully} from "../../redux/actions/notifyActions";
+import {notifyDeleteSucessFully, notifyError} from "../../redux/actions/notifyActions";
 import { useDispatch } from "react-redux";
 import moment from "moment";
 import LoadingButton from "@mui/lab/LoadingButton"
 import { getContestDetail } from "../../services/ContestService";
+import messageCode from "../../utils/messageCode";
 
 
 const useStyle = makeStyles({
@@ -73,7 +74,7 @@ const PostDetail = (props) => {
   //this is for delete post
   const onDelete = () => {
     deletePost(post.post_id).then((res)=>{
-      if(res === 200) {
+      if(res.statusCode === 200) {
         setConfirmDialog({
           ...confirmDialog,
           isOpen : false
@@ -84,6 +85,13 @@ const PostDetail = (props) => {
         } else {
           setOpenPopUp(false)
         }
+      } else {
+        if(!setOpenPopUp) {
+          history.goBack()
+        } else {
+          setOpenPopUp(false)
+        }
+        dispatch(notifyError(messageCode(res.messageCode)))
       }
     })
   }

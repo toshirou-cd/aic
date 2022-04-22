@@ -49,7 +49,7 @@ export const Darshboard = () => {
                 <div style={{minWidth:"50px"}}>
                   {data.aiOfCurrentMonth.percent} %
                   </div>
-                {String(data.aiOfCurrentMonth.percent).charAt(0) === '-' ? 
+                {String(data.postOfCurrentMonth.percent).charAt(0) === '-' ? 
                   (
                     <ArrowDownwardIcon style={{color:"red"}}/>
                   ) 

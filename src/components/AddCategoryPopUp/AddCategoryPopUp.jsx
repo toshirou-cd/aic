@@ -54,6 +54,7 @@ const AddCategoryPopUp = (props) => {
             dispatch(notifyError(messageCode(res.messageCode)))
         }
         setAddCategoryPopUp({...addCategoryPopUp, isOpen: false})
+        setCategory("")
       }).catch(err => {
         console.log("pop up add category err" + err)
       })
@@ -61,7 +62,8 @@ const AddCategoryPopUp = (props) => {
       updateCategories(addCategoryPopUp.id,category,0).then(res =>{
         if(res.statusCode === 200) {
           setAddCategoryPopUp({...addCategoryPopUp, isOpen: false})
-          dispatch(notifySuccessfully('Updated Prize'))
+          dispatch(notifySuccessfully('Updated Category successfully'))
+          setCategory("")
         } else {
           setAddCategoryPopUp({...addCategoryPopUp, isOpen: false})
           dispatch(notifyError(messageCode(res.messageCode)))

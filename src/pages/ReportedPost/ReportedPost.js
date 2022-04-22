@@ -368,9 +368,11 @@ const ReportedPost = (props) => {
     </div>
     <div className="prizeContainter">
         <div className="prizeContainterHeader">
-          <div style={{display:'flex',flexDirection:'row',gap:'1rem'}}>
+          <div style={{display:'flex',flexDirection:'row',gap:'1rem',alignItems:'center'}}>
+            <span style={{fontWeight:'650',fontSize:'1.5rem'}}>
             Category list : 
-            {/* <Box
+              </span>
+            <Box
           sx={{
             maxWidth: 100,
             minWidth: 100,
@@ -379,9 +381,9 @@ const ReportedPost = (props) => {
         >
           <FormControl fullWidth>
             <Select
-              value={prize.status}
+              value={cate.status}
               label="Status"
-              onChange={(e) => setPrize(prev => ({...prev, status : e.target.value}))}
+              onChange={(e) => setCate(prev => ({...cate, status : e.target.value}))}
               variant="standard"
               sx={{
                 ":before": { borderBottomColor: "#ff8640" },
@@ -391,11 +393,11 @@ const ReportedPost = (props) => {
             >
               <MenuItem value={0}> All</MenuItem>
               <MenuItem value={3}> Present</MenuItem>
-              <MenuItem value={4}> Delete</MenuItem>
+              <MenuItem value={4}> Deleted</MenuItem>
              
             </Select>
           </FormControl>
-        </Box> */}
+        </Box>
           </div>
         <Button
           variant="outlined"

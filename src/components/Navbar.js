@@ -68,6 +68,7 @@ const Navbar = (props) => {
           }}
           >
             <ListItemIcon sx={{color: `${location.pathname === `${props.routerPath}/${data.path}` ? 'white' : 'black'}`}}>{data.icon}</ListItemIcon>
+            {/* {data.title} */}
             <ListItemText primary={data.title} />
           </ListItemButton>
         ))}

@@ -12,7 +12,7 @@ export const NotifyReducer = (state = initialState, action) => {
     case NOTIFY_DELETE_SUCCESSFULLY:
       return {
         isOpen: true,
-        message: "Deleted successfully !",
+        message: "Disable account successfully !",
         type: "success",
       }
     case CLOSE_NOTIFY:
@@ -23,7 +23,7 @@ export const NotifyReducer = (state = initialState, action) => {
     case FORCE_LOG_OUT : 
       return {
       isOpen : true,
-      message : 'Force Logout Success',
+      message : 'Force Logout Successfully',
       type :'success'
     }
 
@@ -42,19 +42,19 @@ export const NotifyReducer = (state = initialState, action) => {
     case NOTIFY_CREATE_CONTEST_SUCCESSFULLY :
         return {
           isOpen : true,
-          message : 'Create contest successfully',
+          message : 'Create poll successfully',
           type : 'success'
         }
     case NOTIFY_ACTIVE_CONTEST_SUCCESSFULLY :
         return {
           isOpen : true,
-          message : 'Active contest successfully',
+          message : 'Active poll successfully',
           type : 'success'
         }
     case NOTIFY_FINISH_CONTEST_SUCCESSFULLY :
         return {
           isOpen : true,
-          message : 'Finish contest successfully',
+          message : 'Finish poll successfully',
           type : 'success'
         }
     case NOTIFY_SUCCESSFULLY : 

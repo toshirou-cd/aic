@@ -15,7 +15,7 @@ export const  useCategorySearch = (searchName ,page , pageSize, status,addCate,d
         setCateLoading(true)
         // let cancel
         // cancel = axios.CancelToken.source()
-        getCateorieslist(searchName,page,pageSize,3).then((data) => {
+        getCateorieslist(searchName,page,pageSize,status).then((data) => {
             if (data.data !== null) {
                 setCategories(data.data)
                 setCateTotalRow(data.total)

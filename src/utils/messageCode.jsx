@@ -107,11 +107,12 @@ const messageCode = (code) => {
     case "PZ116" : return "No prize to display";
     case "PZ117" : return "Get prize fail";
     case "CI111" : return "collect infor for admin dashboard fail";
+    case "CT124" : return "Poll has closed. Can not process";
     default : return "Acion failure : Something went wrong "
   }
   // return (
-  //   /// <summary>
-  //       /// U111 :
+  //   /// <summary>S
+  //       /// U111 :SS
   //       /// </summary>
   //       public const String UserNotFound = "U111";
   //       /// <summary>

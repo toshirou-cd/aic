@@ -64,7 +64,7 @@ export const deletePost = (postID) => {
         status: 4,
     })
     .then((res) => {
-      return res.data.statusCode;
+      return res.data;
     })
     .catch((err) => {
       console.log("Get page comment error :" + err);

@@ -14,6 +14,7 @@ import { Stack, Chip } from "@mui/material";
 import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
 import { notifyDeleteSucessFully, notifyError, notifyUpdateSucessfully } from "../../redux/actions/notifyActions";
 import { useDispatch } from "react-redux";
+import messageCode from "../../utils/messageCode";
 
 const ReportDetail = () => {
   const { reportId } = useParams();
@@ -73,7 +74,7 @@ const ReportDetail = () => {
             ...confirmDialog,
             isOpen : false
           })
-            dispatch(notifyError())
+            dispatch(notifyError(messageCode(res.messageCode)))
         }
       })
   }

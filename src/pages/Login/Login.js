@@ -88,7 +88,7 @@ const Login = () => {
       }
       ).catch((err) => {
       setLoading(false)
-      setError('Your username and spassword is invalid ')
+      setError('Please check your username and password.')
       dispatch(LoginFail())
     })
   }
