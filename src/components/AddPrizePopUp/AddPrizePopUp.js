@@ -16,6 +16,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { addPrize, updatePrize } from "../../services/ContestService";
 import { useDispatch } from "react-redux";
 import { notifyError, notifySuccessfully } from "../../redux/actions/notifyActions";
+import messageCode from "../../utils/messageCode";
 
 
 const useStyles = makeStyles(theme => ({
@@ -49,9 +50,10 @@ const AddPrizePopUp = (props) => {
             setAddPrizePopUp({...addPrizePopUp, isOpen: false})
           }
           else {
-            dispatch(notifyError())
+            dispatch(notifyError(messageCode(res.messageCode)))
         }
         setAddPrizePopUp({...addPrizePopUp, isOpen: false})
+        setPrize("")
       }).catch(err => {
         console.log("pop up add price err" + err)
       })
@@ -62,9 +64,11 @@ const AddPrizePopUp = (props) => {
           dispatch(notifySuccessfully('Updated Prize'))
         } else {
           setAddPrizePopUp({...addPrizePopUp, isOpen: false})
-          dispatch(notifyError())
+          dispatch(notifyError(messageCode(res.messageCode)))
         }
+        setPrize("")
       })
+      
        )
       setLoading(false)
     }

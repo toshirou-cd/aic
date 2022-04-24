@@ -49,12 +49,13 @@ const AddCategoryPopUp = (props) => {
           if(res.statusCode === 200) {
             dispatch(notifySuccessfully("Add category successfully"))
             setAddCategoryPopUp({...addCategoryPopUp, isOpen: false})
+            setCategory("")
           }
           else {
             dispatch(notifyError(messageCode(res.messageCode)))
         }
         setAddCategoryPopUp({...addCategoryPopUp, isOpen: false})
-        setCategory("")
+        
       }).catch(err => {
         console.log("pop up add category err" + err)
       })

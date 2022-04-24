@@ -141,9 +141,9 @@ const Login = () => {
           </Button>
           </form>
           { error && <span style={{color:'red', fontSize:'12px'}}> {error}</span>}
-          <Typography>  
+          {/* <Typography>  
             <Link href="#">Forgot password ?</Link>
-          </Typography>
+          </Typography> */}
         </Paper>
       </Grid> 
     </div>

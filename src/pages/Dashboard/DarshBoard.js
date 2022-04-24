@@ -122,7 +122,7 @@ export const Darshboard = () => {
       </div>
 
       <div className='chart'>
-          <h3 className='caption'>AI caption using analyse</h3>
+          <h3 className='caption'>Created post analyst</h3>
           <div className='chartItem'>
             <ResponsiveContainer width='100%' aspect={4/1}>
               <LineChart data={data.months}>
