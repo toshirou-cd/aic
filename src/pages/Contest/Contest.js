@@ -111,7 +111,7 @@ const Contest = (props) => {
     },
     {
       field: "contest_name",
-      headerName: "Contest Name",
+      headerName: "Poll Name",
       width: 180,
       renderCell: renderCellExpand,
     },

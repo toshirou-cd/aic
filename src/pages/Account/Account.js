@@ -76,6 +76,9 @@ const Account = (props) => {
       field: "date_create",
       headerName: "Day Create ",
       type: "dateTime",
+      headerAlign:'center',
+      align:'center',
+      sortable:false,
       width: 230,
       renderCell: (params) => {
         return <>{convertDateTime(params.row.date_create)}</>;
@@ -85,7 +88,9 @@ const Account = (props) => {
       field: "status",
       headerName: "Status",
       sortable: false,
-      width: 100,
+      headerAlign:'center',
+      align:'center',
+      width: 200,
       renderCell: (params) => {
         return <>{getMessageCode(params.row.status)}</>;
       },
@@ -94,7 +99,9 @@ const Account = (props) => {
       field: "action",
       headerName: "Action",
       sortable: false,
-      width: 180,
+      align:'center',
+      headerAlign:'center',
+      width: 200,
       renderCell: (params) => {
         return (
           <div>

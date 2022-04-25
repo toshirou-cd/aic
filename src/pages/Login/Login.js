@@ -101,7 +101,7 @@ const Login = () => {
             <Avatar style={avatarStyle}>
               <AdminPanelSettingsIcon />
             </Avatar>
-            <h2>Admin Login</h2>
+            <h2>ISMAIA Login</h2>
             
           </Grid>
           <form >
