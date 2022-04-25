@@ -46,8 +46,8 @@ export const Darshboard = () => {
                   {data.postOfCurrentMonth.currentMonthCount}
                   </span>
                   <div className='widgetRate'>
-                <div style={{minWidth:"50px"}}>
-                  {data.aiOfCurrentMonth.percent} %
+                <div style={{width:"60px"}}>
+                  {data.postOfCurrentMonth.percent} %
                   </div>
                 {String(data.postOfCurrentMonth.percent).charAt(0) === '-' ? 
                   (
@@ -73,7 +73,7 @@ export const Darshboard = () => {
               {data.reportOfCurrentMonth.currentMonthCount} 
               </div>
                 <div className='widgetRate'>
-                  <div style={{minWidth:"50px"}}>
+                  <div style={{width:"60px"}}>
                   {data.reportOfCurrentMonth.percent} %
                   </div>
                 {String(data.reportOfCurrentMonth.percent).charAt(0) === '-' ? 
@@ -100,7 +100,7 @@ export const Darshboard = () => {
               {data.aiOfCurrentMonth.currentMonthCount}
               </span>
                 <div className='widgetRate'>
-                <div style={{minWidth:"50px"}}>
+                <div style={{width:"60px"}}>
                   {data.aiOfCurrentMonth.percent} %
                   </div>
                 {String(data.aiOfCurrentMonth.percent).charAt(0) === '-' ? 
