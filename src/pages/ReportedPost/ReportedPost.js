@@ -65,7 +65,8 @@ const ReportedPost = (props) => {
     },
     {
       field: "user_name",
-      headerName: "Reported by",
+      sortable:false,
+      headerName: "Reported User",
       width: 150,
     },
     {
@@ -130,7 +131,7 @@ const ReportedPost = (props) => {
   const cateColumns = [
     {
       field: "id",
-      headerName: "ID",
+      headerName: "Order",
       width: 100,
       renderCell: (params) =>
       categoryList.map((categories) => categories.id).indexOf(params.row.id) + 1,
@@ -334,7 +335,7 @@ const ReportedPost = (props) => {
         getRowId={(row) => row.report_id}
         pageSize={pageSize}
         rowsPerPageOptions={data.rowsPerPageOptions}
-        checkboxSelection
+        // checkboxSelection
         pagination  
         paginationMode="server"
         page={page-1}
@@ -415,7 +416,7 @@ const ReportedPost = (props) => {
           pageSize={cate.pageSize}
           page={cate.page - 1}
           rowsPerPageOptions={[5,10,15]}
-          checkboxSelection
+          // checkboxSelection
           // className={style.rowSelected}
           disableSelectionOnClick={true}
           pagination
