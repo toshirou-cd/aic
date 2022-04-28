@@ -32,7 +32,7 @@ const Navbar = (props) => {
       sx={{
       '& .MuiDrawer-paper': {
         // background: 'linear-gradient(to right bottom, #430089, #82ffa1)',
-        background: 'linear-gradient(to right bottom, rgba(255,209,109,1) 0%, rgba(250,145,55,1) 36%, rgba(238,71,63,0.7570378493194152) 100%)',
+        background: 'linear-gradient(319deg, rgba(249,140,65,0.6197829473586309) 1%, rgba(250,145,55,0.8354692218684349) 34%, rgba(238,118,63,1) 56%)',
       }
     }}
       >

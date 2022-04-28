@@ -1,10 +1,9 @@
-import React , { useState }from 'react'
-import PropTypes from 'prop-types'
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, TextField } from '@material-ui/core'
+import { Dialog, DialogActions, DialogContent, DialogTitle, Divider, TextField } from '@material-ui/core'
 import { LoadingButton } from '@mui/lab'
-import { updateUserInfo } from '../../services/account/account'
-import { notifyError, notifyUpdateSucessfully } from '../../redux/actions/notifyActions'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { notifyUpdateSucessfully } from '../../redux/actions/notifyActions'
+import { updateUserInfo } from '../../services/account/account'
 
 const UpdateUserInfoForm = props => {
     const {userID, openPopUp , setOpenPopUp,propsemail,propsphone} = props
@@ -24,7 +23,7 @@ const UpdateUserInfoForm = props => {
             if(data === 200) {
                 dispatch(notifyUpdateSucessfully())
             } else {
-                dispatch(notifyError())
+                // dispatch(notifyError(messageCode(res.messageCode)))
             }
             setLoading(false)
             setOpenPopUp(false)

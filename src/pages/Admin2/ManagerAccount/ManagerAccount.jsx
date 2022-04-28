@@ -33,7 +33,8 @@ const ManagerAccount = () => {
   const columns =[
     {
       field: "id",
-      headerName: "ID",
+      headerName: "Order",
+      sortable : false,
       width: 100,
       align:'center',
       headerAlign:'center',
@@ -95,7 +96,7 @@ const ManagerAccount = () => {
   return (
     <div className='contestWrapper'  style={{height:'80vh'}}>
         <div style={{
-          height:"500px",
+          height:"380px",
           display:'flex',
           flexDirection:'column',
           gap:'.5rem'

@@ -203,7 +203,7 @@ const UserProfile = () => {
                   onClick={() => {
                     setConfirmDialog({
                       isOpen: true,
-                      title: "Are you sure you want to block this account ?",
+                      title: "Are you sure you want to disable this account ?",
                       subTitle: "Your operation can not reverse ",
                       onConfirm: () => handleDeleteAccount(),
                     });

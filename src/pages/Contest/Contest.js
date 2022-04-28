@@ -1,3 +1,9 @@
+import { IconButton } from "@material-ui/core";
+import { DataGrid } from "@material-ui/data-grid";
+import { RemoveCircle } from "@mui/icons-material";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Box,
   Button,
@@ -5,33 +11,25 @@ import {
   Input,
   MenuItem,
   Paper,
-  Select,
-  Tooltip,
+  Select, Stack, Tooltip
 } from "@mui/material";
+import moment from 'moment';
 import PropTypes from "prop-types";
-import { DataGrid } from "@material-ui/data-grid";
-import { Stack } from "@mui/material";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import AddPrizePopUp from "../../components/AddPrizePopUp/AddPrizePopUp";
+import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
+import CreateContestPopUp from "../../components/CreateContestPopUp/CreateContestPopUp";
 import GridCellExpand from "../../components/GridCellExpand";
 import useContestSearch from "../../hooks/useContestSearch";
 import { usePrizeSearch } from "../../hooks/usePrizeSearch";
+import { notifyError, notifySuccessfully } from "../../redux/actions/notifyActions";
+import { deleteContest, updatePrize } from "../../services/ContestService";
 import { getMessageCode } from "../../utils/contanst";
+import messageCode from "../../utils/messageCode";
 import { convertDateTime, handleContestActive } from "../../utils/tool";
 import "./Contest.css";
-import AddIcon from "@mui/icons-material/Add";
-import CreateContestPopUp from "../../components/CreateContestPopUp/CreateContestPopUp";
-import SearchIcon from "@mui/icons-material/Search";
-import { IconButton } from "@material-ui/core";
-import EditIcon from "@mui/icons-material/Edit";
-import AddPrizePopUp from "../../components/AddPrizePopUp/AddPrizePopUp";
-import { addPrize, updatePrize ,deleteContest} from "../../services/ContestService";
-import moment from 'moment'
-import { RemoveCircle } from "@mui/icons-material";
-import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
-import { useDispatch } from "react-redux";
-import { notifyError, notifySuccessfully } from "../../redux/actions/notifyActions";
-import messageCode from "../../utils/messageCode";
 
 const Contest = (props) => {
   const history = useHistory();
@@ -102,9 +100,10 @@ const Contest = (props) => {
   const contestColumns = [
     {
       field: "id",
-      headerName: "ID",
+      headerName: "Order",
       sortable: false,
-      width: 70,
+      width: 100,
+      align:'center',
       sortable: false,
       renderCell: (params) =>
         contests.map((contest) => contest.id).indexOf(params.row.id) + 1,
@@ -217,6 +216,9 @@ const Contest = (props) => {
       field: "id",
       headerName: "ID",
       width: 100,
+      sortable : false,
+      headerAlign:"center",
+      align:"center",
       renderCell: (params) =>
       prizes.map((prize) => prize.id).indexOf(params.row.id) + 1,
     },
@@ -357,8 +359,8 @@ const Contest = (props) => {
       >
         <span
           style={{
-            fontFamily: "sans-serif",
-            fontWeight: "700",
+            // fontFamily: "sans-serif",
+            fontWeight: "600",
             fontSize: "20px",
           }}
         >
@@ -441,7 +443,7 @@ const Contest = (props) => {
           <AddIcon /> Create
         </Button>
       </div>
-      <div style={{ height: "650px" }}>
+      <div style={{ height: "380px" }}>
         <DataGrid
           rowCount={totalRow}
           rows={contests}
@@ -449,7 +451,7 @@ const Contest = (props) => {
           pageSize={pageSize}
           page={page - 1}
           rowsPerPageOptions={pageSizeOption}
-          checkboxSelection
+          // checkboxSelection
           // className={style.rowSelected}
           disableSelectionOnClick={true}
           pagination
@@ -528,7 +530,7 @@ const Contest = (props) => {
           pageSize={prize.pageSize}
           page={prize.page - 1}
           rowsPerPageOptions={pageSizeOption}
-          checkboxSelection
+          // checkboxSelection
           // className={style.rowSelected}
           disableSelectionOnClick={true}
           pagination

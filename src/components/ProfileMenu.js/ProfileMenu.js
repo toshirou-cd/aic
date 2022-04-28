@@ -82,13 +82,13 @@ const ProfileMenu = () => {
           horizontal: "left",
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <PersonIcon fontSize="small" />
           </ListItemIcon>
           My account
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={(e) => logOut(e)}>
           <ListItemIcon>
             <Logout fontSize="small" />

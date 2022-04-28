@@ -325,7 +325,7 @@ const ReportedPost = (props) => {
         </Box>
       </div>
       <div style={{
-        height : '500px'
+        height : '380px'
       }}>
 
       <DataGrid

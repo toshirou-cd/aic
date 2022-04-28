@@ -63,7 +63,7 @@ const messageCode = (code) => {
     case "S112" : return "String contain search value is null or white space";
     case "S113" : return "Product Per Page of Current Page is blank or zero";
     case "TA111" : return "Wrong type or action to enter api";
-    case "D111" : return "Get category fail";
+    // case "D111" : return "Get category fail";
     case "C111" : return "Get category fail";
     case "C112" : return "Category not found or deleted";
     case "C113" : return "Update category fail";
@@ -108,6 +108,7 @@ const messageCode = (code) => {
     case "PZ117" : return "Get prize fail";
     case "CI111" : return "collect infor for admin dashboard fail";
     case "CT124" : return "Poll has closed. Can not process";
+    case "D111" : return "Date end must be at least 1 hour from current time";
     default : return "Acion failure : Something went wrong "
   }
   // return (

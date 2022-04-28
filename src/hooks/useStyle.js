@@ -7,7 +7,7 @@ export const useStyle = makeStyles((theme) => {
   return {
     page: {
       width: '100%',
-      minHeight: '100%',
+      height: '85vh',
       background: "#f9f9f9",
       padding : theme.spacing(3),
       marginTop:'50px'

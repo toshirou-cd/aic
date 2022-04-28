@@ -1,36 +1,27 @@
-import React, { useEffect, useState } from "react";
 import {
-  Chip,
-  Dialog,
-  DialogContent,
+  Box, Button, Chip,
+  Dialog, DialogActions, DialogContent,
   DialogTitle,
-  Divider,
-  makeStyles,
+  Divider, FormControl, IconButton, makeStyles,
   MenuItem,
   Select,
-  setOpenPopUp,
-  TextField,
-  Box,
-  FormControl,
-  Button,
-  IconButton,
-  DialogActions
+  // setOpenPopUp,
+  TextField
 } from "@material-ui/core";
-import "./CreateContestPopUp.css";
+import { RemoveCircleOutline } from "@mui/icons-material";
+import AddIcon from '@mui/icons-material/Add';
 import {
-  DateTimePicker,
-  DesktopDatePicker,
-  LocalizationProvider,
+  DateTimePicker, LocalizationProvider
 } from "@mui/lab";
 import DateAdapter from "@mui/lab/AdapterMoment";
-import moment from "moment";
 import { Stack } from "@mui/material";
-import {  createContest, getPrizesList} from "../../services/ContestService";
-import { getPostDetail } from "../../services/PostService";
-import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { notifyCreateContestSuccessfully, notifyError } from "../../redux/actions/notifyActions";
+import { createContest, getPrizesList } from "../../services/ContestService";
+import messageCode from "../../utils/messageCode";
+import "./CreateContestPopUp.css";
 
 const useStyle = makeStyles({
   dialogWrapper: {
@@ -77,7 +68,7 @@ const CreateContestPopUp = (props) => {
     contest_name: "",
     description: "",
     date_end: new Date(),
-    delaytime_tostart: "",
+    delaytime_tostart: 0,
   });
   const [prizes, setPrizes] = useState([]);
 
@@ -88,6 +79,10 @@ const CreateContestPopUp = (props) => {
   }
 ])
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState({
+    type : "",
+    text : ""
+  })
 
   const classes = useStyle();
 
@@ -104,28 +99,69 @@ const CreateContestPopUp = (props) => {
       top : awards.length + 1 ,
       prize_id : ''
     }]
-      setAwards(tmpArray)
+    setAwards(tmpArray)
   }
 
-  const handleRemovePrize = (id) => {
-    const tmpArray = awards.filter(x => x.id !== id  )
-      setAwards(tmpArray)
+  const handleRemovePrize = (index) => {
+    let array = [...awards]
+    array.pop()
+    setAwards(array)
   }
 
   const dispatch = useDispatch()
 
   const onCreateContest = () => {
     setLoading(true)
+    if(data.contest_name === null || data.contest_name.length === 0) {
+      setError({
+        type:"Empty Name",
+        text: "This field is required"
+      })
+      setLoading(false)
+      return;
+    }
+    if(data.description === null || data.description.length === 0) {
+      setError({
+        type:"Empty Description",
+        text: "This field is required"
+      })
+      setLoading(false)
+      return;
+    }
+    if(data.date_end === null || moment().add(1,'hours').unix() >= moment(data.date_end).unix() ) {
+      setError({
+        type:"Empty Time",
+        text: "Please check your end time. Poll 's end time must be at least 1 hour from current time !"
+      })
+      setLoading(false)
+      return;
+    }
+    if(data.delaytime_tostart=== null || data.delaytime_tostart.length === 0) {
+      setError({
+        type:"Empty Delay",
+        text: "Please check your delay time"
+      })
+      setLoading(false)
+      return;
+    }
+    if(awards[0].prize_id === null || awards[0].prize_id.length === 0) {
+      setError({
+        type:"Empty Prize",
+        text: "Your poll need to have at least 1 prize"
+      })
+      setLoading(false)
+      return;
+    }
     createContest(data.contest_name,data.description,data.date_end,data.delaytime_tostart,awards)
     .then(res => {
       if(res.statusCode === 200) {
         dispatch(notifyCreateContestSuccessfully())
       }
       else {
-        dispatch(notifyError())
+        dispatch(notifyError(messageCode(res.messageCode)))
       }
     }).catch(error => {
-      dispatch(notifyError())
+      dispatch(notifyError("Some thing went wrong"))
     })
     // setAwards({
     //   prize_id : '',
@@ -166,11 +202,13 @@ const CreateContestPopUp = (props) => {
       >
         <div className="contestInfo">
           <TextField
+         
             id="standard-basic"
             label=" Poll Name "
+            hintText="Poll Name"
             variant="standard"
             className={classes.textField}
-            required
+            error ={error.type === "Empty Name" && true}
             value={data.contest_name}
             onChange={(e) =>
               setData({
@@ -178,13 +216,17 @@ const CreateContestPopUp = (props) => {
                 contest_name: e.target.value,
               })
             }
+            helperText={error.type === "Empty Name" && error.text}
+            required
           />
           <TextField
             id="standard-basic"
-            label=" Poll Description "
+            label=" Poll Description"
             variant="standard"
             className={classes.textField}
             required
+            error ={ error.type === "Empty Description" ? true : false}
+            helperText={error.type === "Empty Description" && error.text}
             value={data.description}
             onChange={(e) =>
               setData({
@@ -192,7 +234,16 @@ const CreateContestPopUp = (props) => {
                 description: e.target.value,
               })
             }
+            multiline
+            minRows={3}
+            inputProps={{
+              style: {marginBottom:"20px"},
+            }}
+            // sx={{textAlign:'left',marginTop:"10px"}}
           />
+          <div style={{display:'flex',flexDirection:'column'}}>
+
+         
           <LocalizationProvider dateAdapter={DateAdapter}>
             <DateTimePicker
               label="Time End"
@@ -210,10 +261,16 @@ const CreateContestPopUp = (props) => {
                   variant="standard"
                   className={classes.textField}
                   {...params}
+                  error={error.type === "Empty Time" && true}
+                  helperText={error.type === "Empty Time" && error.text }
                 />
               )}
+              
             />
           </LocalizationProvider>
+          <span style={{fontSize:".7rem",color:'red'}}>* Poll 's end time must be at least 1 hour from current time</span>
+
+          </div>
           {console.log(
             "date abc : " + moment(data.date_end).format("YYYY-MM-DDTHH:MM:SS")
           )}
@@ -230,9 +287,16 @@ const CreateContestPopUp = (props) => {
                 delaytime_tostart: e.target.value,
               })
             }
+            error={error.type === "Empty Delay" && true}
+                  helperText={error.type === "Empty Delay" && error.text}
           />
-          Prizes :
-          {awards.map((award,key) => (
+          <div style={{display:'flex',flexDirection:'column',gap:0}}>
+            Prizes : 
+            {error.type === "Empty Prize" && <span style={{color:'red',fontSize:'.7rem'}}>
+            {error.text}
+          </span>}
+          </div>
+          {awards.map((award,key,arr) => (
               <Stack direction='row'>
               <Chip  label={`Top ${award.top}`}/>
               <Box
@@ -262,15 +326,20 @@ const CreateContestPopUp = (props) => {
                   </Select>
                 </FormControl>
               </Box>
-
-              <IconButton onClick={handleRemovePrize}>
-                  <CloseIcon />
+          {
+            (arr.length === key+1 && arr.length !== 1 ) &&
+            <IconButton onClick={() => handleRemovePrize(key)}>
+                  <RemoveCircleOutline style={{color:'red'}}/>
               </IconButton>
+          }
+              
             </Stack>
   ))} 
-          <Button variant="outlined" color='primary' onClick={handleAddMorePrize}>
-              <AddIcon /> add more prizes 
-          </Button>
+          <button  onClick={()=>handleAddMorePrize()}  
+          style={{width:'100%',border:'1px dashed gray',cursor:'pointer',padding:'0.25rem'}}> 
+         
+              + Add more prizes 
+          </button>
           
           {console.log('prize a:' + data.Prizes)}
           {console.log('prize b:' + JSON.stringify(awards))}
@@ -279,7 +348,7 @@ const CreateContestPopUp = (props) => {
 
       <DialogActions>
         <Button variant='contained' style={{ backgroundColor: '#FF8640' }}
-                     onClick={onCreateContest} disabled={loading}> Create </Button>
+                     onClick={() =>onCreateContest()} disabled={loading}> Create </Button>
         <Button onClick={() => setOpenPopUp(false)} color='error' variant="contained"> Cancel </Button>
       </DialogActions>
     </Dialog>

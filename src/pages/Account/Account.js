@@ -45,7 +45,7 @@ const Account = (props) => {
   const [searchInput, setSearchInput] = useState('')
   const typingTimeoutRef = useRef(null)
   const columns = [
-    { field: "id", headerName: "ID", width: 100 ,
+    { field: "id", headerName: "ID", width: 100 , align:'center',headerAlign:'center',sortable:false,
     renderCell: (params) =>
     accounts.map((acct) => acct.id).indexOf(params.row.id) + 1,
     
@@ -151,16 +151,17 @@ const Account = (props) => {
   return (
     <div
       style={{
-        height: "100%",
-        width: "100%",
-        backgroundColor: "white",
-        padding: "0 10 0 10",
+        // height: "100%",
+        // width: "100%",
+        // backgroundColor: "white",
+        padding: "0 5 0 10",
         display: "flex",
         flexDirection: "column",
       }}
+      className="contestWrapper"
     >
       <div className="header">
-        <h3 style={{fontSize:"20px",fontWeight:"700"}}>Showing User List by </h3>
+        <h3 style={{fontSize:"20px",fontWeight:"700",marginRight:".5rem"}}>Showing User List by </h3>
         <div style={{flexGrow : 99}}>
         <Box sx={{
           maxWidth : 100,
@@ -227,7 +228,7 @@ const Account = (props) => {
         </form>
       </div>
       <div style={{
-        height:'550px'
+        height:'400px'
       }}>
 
       <DataGrid
@@ -237,7 +238,7 @@ const Account = (props) => {
       pageSize={pageSize}
       page={page - 1}
       rowsPerPageOptions={pageSizeOption}
-      checkboxSelection 
+      // checkboxSelection 
       className={style.rowSelected}
       disableSelectionOnClick={true}
       pagination

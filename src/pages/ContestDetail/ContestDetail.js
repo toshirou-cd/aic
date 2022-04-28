@@ -73,6 +73,7 @@ const ContestDetail = (props) => {
   const [totalPagePosts, setTotalPagePosts] = useState(0);
   const [top, setTop] = useState([]);
   const [isSetAward,setIsSetAward ] = useState(false);
+  const [time,setTime ] = useState("");
   renderCellExpand.propTypes = {
     /**
      * The column of the row that the current cell belongs to.
@@ -95,7 +96,7 @@ const ContestDetail = (props) => {
   const columns = [
   {
       field: "post_id",
-      headerName: "ID",
+      headerName: "Order",
       width: 70,
       sortable: false,
       renderCell: (params) => (
@@ -538,18 +539,33 @@ const ContestDetail = (props) => {
             disabled={!isEdit}/>
           <div>Date create</div>
           <div>: </div>
+          <div>
+
           <input type="date" 
             className="value"
             value={moment(data.date_create).format('yyyy-MM-DD')} 
             disabled={true}/>
           {/* <div>{convertDateTime(data.date_create)} </div> */}
+          <input type="time" 
+            className="value"
+            value={moment(data.date_create).format('HH:mm')} 
+            // onChange={(e) => setData({...data,date_create: e.target.value})} 
+            disabled={true}/>
+            </div>
           <div>Date end  </div>
           <div>: </div>
+          <div>
           <input type="date" 
             className="value"
             value={moment(data.date_end).format('yyyy-MM-DD')} 
             onChange={(e) => setData({...data,date_end: e.target.value})} 
             disabled={!isEdit}/>
+          <input type="time" 
+            className="value"
+            value={moment(data.date_end).format('HH:mm')} 
+            onChange={(e) => setTime(e.target.value)} 
+            disabled={!isEdit}/>
+            </div>
           <div>
             Award
           </div>
@@ -564,7 +580,9 @@ const ContestDetail = (props) => {
                         {item.name}
                     </div>
                     {
-                      (arr.length === index+1 && arr.length !== 1 && updatePrize) &&
+                      ((arr.length === index+1 && arr.length !== 1) &&
+                      ((getMessageCode(data.status) === 'Present' && data.contest_active === 0) 
+                      || getMessageCode(data.status) === 'Request')) &&
                       <div style={{marginLeft:'auto'}}>
                         <Tooltip label="Remove this prize">
 
@@ -584,7 +602,8 @@ const ContestDetail = (props) => {
                 ))}
                   
                   <div style={{position:'absolute',top:0,right:0}}>
-                    <>{
+                    {/* <>
+                    {
                       ((getMessageCode(data.status) === 'Present' && data.contest_active === 0) 
                       || getMessageCode(data.status) === 'Request') &&
                       <>
@@ -602,14 +621,12 @@ const ContestDetail = (props) => {
                              )
                         : 
                         <>
-                          <Button>Save</Button>
                           <Button onClick={() => setUpdatePrize(false)}>Cancel</Button>
                         </>
                       }
                       </>
-                    }</>
-                         
-                        </div>
+                    }</> */}
+                    </div>
                 {
                   ((getMessageCode(data.status) === 'Present' && data.contest_active === 0) ||
                   getMessageCode(data.status) === 'Request')  &&
@@ -781,7 +798,7 @@ const ContestDetail = (props) => {
           page={page - 1}
           pageSize={pageSize}
           rowsPerPageOptions={[5, 10, 15]}
-          checkboxSelection
+          // checkboxSelection
           // className={style.rowSelected}
           disableSelectionOnClick={true}
           pagination
