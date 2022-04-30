@@ -51,8 +51,8 @@ const routes= [
   {
     path: '/',
     exact: true,
-    component: Setting,
-    redirectTo: '/setting',
+    // component: Setting,
+    redirectTo: '/account',
     isPrivate: true
   },
   {

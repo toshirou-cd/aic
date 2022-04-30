@@ -50,7 +50,9 @@ const BASE_URL = {
     updateCategories : URL_API + 'categories/updatecategory',
     getManagerAccount : URL_API + 'users/getmanageraccountforadmin',
     createManagerAccount : URL_API + 'users/createmanagerbyadmin',
-    changeManagerPassword : URL_API + 'users/resetmanagerpassword'
+    changeManagerPassword : URL_API + 'users/resetmanagerpassword',
+    getAIStatus : URL_API + 'users/getaistatus',
+    changeAIStatus : URL_API + 'users/changeaiactive',
 }
 
 export default BASE_URL

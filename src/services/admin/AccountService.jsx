@@ -47,3 +47,33 @@ export const updateManagerAccount = async (id,password) => {
       console.log("Resest manager password error :" + err);
     });
   };
+
+export const changeAIStatus = async (status) => {
+    return await axiosApiInstance
+    .post(BASE_URL.changeAIStatus
+      , {
+            status: status,
+    }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("Change AI status  error :" + err);
+    });
+  };
+
+export const getAIStatus = async () => {
+    return await axiosApiInstance
+    .get(BASE_URL.getAIStatus,{
+      params : {
+        
+      }
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("Get AI status  error :" + err);
+    });
+  };
