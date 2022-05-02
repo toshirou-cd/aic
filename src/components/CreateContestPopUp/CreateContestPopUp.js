@@ -9,11 +9,11 @@ import {
   TextField
 } from "@material-ui/core";
 import { RemoveCircleOutline } from "@mui/icons-material";
-import AddIcon from '@mui/icons-material/Add';
 import {
   DateTimePicker, LocalizationProvider
 } from "@mui/lab";
-import DateAdapter from "@mui/lab/AdapterMoment";
+// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
 import { Stack } from "@mui/material";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -67,9 +67,12 @@ const CreateContestPopUp = (props) => {
   const [data, setData] = useState({
     contest_name: "",
     description: "",
-    date_end: new Date(),
     delaytime_tostart: 0,
   });
+  const [datetime,setDateTime] = useState({
+    date_end: moment().format("yyyy-MM-DD"),
+    time_end: moment().format("HH:mm:ss")
+  })
   const [prizes, setPrizes] = useState([]);
 
   const[ awards, setAwards] =useState([
@@ -110,6 +113,10 @@ const CreateContestPopUp = (props) => {
 
   const dispatch = useDispatch()
 
+  const handleSelectDatetime = (newvalue) => {
+    setDateTime(newvalue)
+  }
+
   const onCreateContest = () => {
     setLoading(true)
     if(data.contest_name === null || data.contest_name.length === 0) {
@@ -128,7 +135,11 @@ const CreateContestPopUp = (props) => {
       setLoading(false)
       return;
     }
-    if(data.date_end === null || moment().add(1,'hours').unix() >= moment(data.date_end).unix() ) {
+    const time =  moment(
+      `${datetime.date_end},${datetime.time_end}`,
+      // "YYYY-MM-DD HH:mm:ss"
+    ).format("YYYY-MM-DDTHH:mm:ss")
+    if(time === null || moment().add(1,'hours').unix() >= moment(time).unix() ) {
       setError({
         type:"Empty Time",
         text: "Please check your end time. Poll 's end time must be at least 1 hour from current time !"
@@ -136,7 +147,7 @@ const CreateContestPopUp = (props) => {
       setLoading(false)
       return;
     }
-    if(data.delaytime_tostart=== null || data.delaytime_tostart.length === 0) {
+    if(data.delaytime_tostart === null || data.delaytime_tostart.length === 0) {
       setError({
         type:"Empty Delay",
         text: "Please check your delay time"
@@ -152,7 +163,7 @@ const CreateContestPopUp = (props) => {
       setLoading(false)
       return;
     }
-    createContest(data.contest_name,data.description,data.date_end,data.delaytime_tostart,awards)
+    createContest(data.contest_name,data.description,time,data.delaytime_tostart,awards)
     .then(res => {
       if(res.statusCode === 200) {
         dispatch(notifyCreateContestSuccessfully())
@@ -244,21 +255,22 @@ const CreateContestPopUp = (props) => {
           <div style={{display:'flex',flexDirection:'column'}}>
 
          
-          <LocalizationProvider dateAdapter={DateAdapter}>
+          {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DateTimePicker
               label="Time End"
               // inputFormat="MM/dd/yyyy"
-              value={data.date_end}
-              onChange={(newTime) =>
-                setData({
-                  ...data,
-                  date_end: newTime,
-                })
+              value={datetime}
+              onChange={handleSelectDatetime
               }
               renderInput={(params) => (
                 <TextField
-                  disabled
-                  variant="standard"
+                  // disabled
+                  // variant="standard"
+                  // value={data.date_end}
+                  // onChange={ (e) => setData({
+                  //   ...data,
+                  //   date_end : e.target.value
+                  // })}
                   className={classes.textField}
                   {...params}
                   error={error.type === "Empty Time" && true}
@@ -267,7 +279,16 @@ const CreateContestPopUp = (props) => {
               )}
               
             />
-          </LocalizationProvider>
+          </LocalizationProvider> */}
+          <div style={{display:'flex',flexDirection:'row',gap: '.5rem'}}>
+            <span style={{marginRight: '1rem'}}>Date end :  </span>
+            <input type='date' value={datetime.date_end}
+              onChange={(e) => setDateTime({...datetime, date_end : e.target.value})}
+            style={{fontSize: '1rem'}}/> 
+            <input type='time'  value={datetime.time_end} 
+             onChange={(e) => setDateTime({...datetime, time_end : e.target.value})}
+            style={{fontSize: '1rem'}}/> 
+          </div>
           <span style={{fontSize:".7rem",color:'red'}}>* Poll 's end time must be at least 1 hour from current time</span>
 
           </div>

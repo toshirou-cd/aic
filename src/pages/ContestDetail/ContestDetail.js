@@ -563,7 +563,10 @@ const ContestDetail = (props) => {
           <input type="time" 
             className="value"
             value={moment(data.date_end).format('HH:mm')} 
-            onChange={(e) => setTime(e.target.value)} 
+            onChange={(e) => setData({
+              ...data,
+              date_end: moment(`${moment(data.date_end).format("yyyy-MM-DD")},${e.target.value}`).format("yyyy-MM-DDTHH:mm") 
+            })} 
             disabled={!isEdit}/>
             </div>
           <div>

@@ -30,9 +30,21 @@ const Topbar = () => {
   const [notifications, setNotifications] = useState(null);
   const [connection, setConnection] = useState(null)
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     dispatch(closeBadge())
     setAnchorEl(event.currentTarget);
+    getNotification(5)
+      .then((res) => {
+        if (res.statusCode === 200) {
+          setNotifications(res.data);
+        } else {
+          setNotifications(null);
+        }
+      })
+      .catch((err) => {
+        console.log("err :" + err);
+      });
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -66,7 +78,7 @@ const Topbar = () => {
                 console.log('Connected!');
 
                 connection.on('specificnotification', message => {
-                  dispatch(showNotification(message.data))
+                  dispatch(showNotification("Poll can not automatically. Please check notification for detail"))
                   console.log('mesage :' + message)
                 });
             })
@@ -77,7 +89,7 @@ const Topbar = () => {
 
 
   useEffect(() => {
-    getNotification(7)
+    getNotification(5)
       .then((res) => {
         if (res.statusCode === 200) {
           setNotifications(res.data);

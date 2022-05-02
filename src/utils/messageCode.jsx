@@ -106,6 +106,7 @@ const messageCode = (code) => {
     case "PZ115" : return "Update prize fail";
     case "PZ116" : return "No prize to display";
     case "PZ117" : return "Get prize fail";
+    case "PZ118" : return "Can not automatically set prize for user . There is some posts have the same like count";
     case "CI111" : return "collect infor for admin dashboard fail";
     case "CT124" : return "Poll has closed. Can not process";
     case "D111" : return "Date end must be at least 1 hour from current time";
