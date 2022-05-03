@@ -24,7 +24,7 @@ import moment from "moment";
 import LoadingButton from "@mui/lab/LoadingButton"
 import { getContestDetail } from "../../services/ContestService";
 import messageCode from "../../utils/messageCode";
-
+import { Link } from "react-router-dom";
 
 const useStyle = makeStyles({
   loadingButton: {
@@ -40,7 +40,7 @@ const useStyle = makeStyles({
 });
 
 const PostDetail = (props) => {
-  const { post , setOpenPopUp , isNormal} = props;
+  const { post , setOpenPopUp , isNormal, match} = props;
   
   const [comments, setComments] = useState([]);
   const [totalComment, setTotalComment] = useState(0);
@@ -140,8 +140,8 @@ const PostDetail = (props) => {
         className="showImg"
       />
       <div className="infoWrapper">
-        <div className="detailWrapper">
-          <span className="showUserName">
+        <div className="detailWrapper" >
+          <a className="showUserName" target="_blank" href={`/admin/account/${post.user_id}`}>
             <img
               className="userListImg"
               src={
@@ -153,7 +153,7 @@ const PostDetail = (props) => {
             />
             {post.user_name}
             <br/>
-          </span>
+          </a>
           <span style={{
             fontWeitght : '100',
             color:'rgb(192, 192, 192)',
@@ -174,10 +174,10 @@ const PostDetail = (props) => {
           </IconButton>
           {
             contestName !== null &&
-          <span>
+          <a target="_blank" href={`/admin/poll/${post.contest_id}`} style={{textDecoration:'none',color:'black'}}>
             
             Poll name : {contestName}
-          </span>
+          </a>
           }
         </div>
         <div className="commentWrapper">

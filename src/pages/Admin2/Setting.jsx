@@ -1,6 +1,10 @@
 import { Button, FormControlLabel, Switch } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import ConfirmDialog from '../../components/ConfirmDialog/ConfirmDialog'
+import { notifyError, notifySuccessfully } from '../../redux/actions/notifyActions'
 import {changeAIStatus, getAIStatus} from '../../services/admin/AccountService'
+import messageCode from '../../utils/messageCode'
 
 const Setting = () => {
     const [swich, setSwich] = useState(() => {
@@ -17,6 +21,12 @@ const Setting = () => {
         })})
 
     const [disabled, setDisabled] = useState(true)
+    const [change, setChange] = useState(false)
+    const [confirmDialog, setConfirmDialog] = useState({
+        isOpen : false,
+        title : "",
+        subTitle : ""
+    })
 
     useEffect(() => {
         getAIStatus().then(res => {
@@ -28,15 +38,30 @@ const Setting = () => {
             console.log('getting ai stats err : ' + err)
         })
        
-    },[])
+    },[change])
 
-
-    //handle chang AI status
-    // const handleChangeAIstats = (stats) => {
-    //     changeAIStatus(stas).then(res => {
-
-    //     })
-    // }
+    const dispatch = useDispatch()
+    // handle chang AI status
+    const handleChangeAIstats = (stats) => {
+        setChange(true)
+        changeAIStatus(stats).then(res => {
+            if(res.statusCode === 200) {
+                setConfirmDialog({
+                    ...confirmDialog,
+                    isOpen : false
+                })
+                dispatch(notifySuccessfully("Applied Change !"))
+            } else {
+                setConfirmDialog({
+                    ...confirmDialog,
+                    isOpen : false
+                })
+                dispatch(notifyError(messageCode(res.messageCode)))
+            }
+        }).catch(() => {
+            dispatch(notifyError("Some thing went wrong !"))
+        })
+    }
   
     return (
     <div className='contestWrapper' style={{height:'80vh'}}>
@@ -67,10 +92,17 @@ const Setting = () => {
                 <Button variant='contained' style={{backgroundColor: "#FA953A",}}
                     disabled={disabled}
                     size="small"
+                    onClick={() => setConfirmDialog({
+                        isOpen : true,
+                        title : "Are your sure with these change  ?",
+                        subTitle : "",
+                        onConfirm : () => handleChangeAIstats(swich ? 0 : 1)
+                    })}
                 >Save</Button>
-                <Button variant='outlined' size="small">Cancel</Button>
+                {/* <Button variant='outlined' size="small">Cancel</Button> */}
             </div>
         </div>
+        <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
     </div>
   )
 }

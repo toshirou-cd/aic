@@ -191,7 +191,7 @@ const Contest = (props) => {
             </Link>
             <>
             {
-              params.row.status !== 4 &&
+              (params.row.status !== 4 || (params.row.status !== 3 && params.row.contest_active !== 0)) &&
             <Tooltip label="Delete this poll">
             <IconButton className="table-cell-trucate"
               onClick={() => setConfirmDialog({

@@ -15,7 +15,7 @@ import React, { useState, useEffect } from "react";
 import { useStyle } from "../../hooks/useStyle";
 import AppBar from "@mui/material/AppBar";
 import ProfileMenu from "../ProfileMenu.js/ProfileMenu";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import { Logout, PersonAdd, Settings } from "@mui/icons-material";
 import { getNotification } from "../../services/NotificationServices";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
@@ -133,7 +133,7 @@ const Topbar = () => {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <NotificationsIcon sx={{ color: "black" }} />
+            <NotificationsNoneIcon sx={{ color: "black" }} />
           </IconButton>
         </Badge>
         

@@ -68,7 +68,7 @@ const Posts = (props) => {
     setError(false)
     if(posts.length === 0 || !posts) {
       setLoading(true)
-      getRandomPost(10,30).then(data => {
+      getRandomPost(15,30).then(data => {
         setLoading(false)
         setPosts(data)
       })

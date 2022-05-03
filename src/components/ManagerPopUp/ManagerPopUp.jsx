@@ -1,4 +1,3 @@
-import React, { useState} from "react";
 import {
   Button,
   Dialog,
@@ -6,20 +5,16 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  makeStyles,
-  setOpenPopUp,
-  Typography
+  makeStyles, Typography
 } from "@material-ui/core";
-import WarningIcon from "@mui/icons-material/Warning";
-import { Input, TextField } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
-import { addPrize, updatePrize } from "../../services/ContestService";
+import { Input } from "@mui/material";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { notifyError, notifySuccessfully } from "../../redux/actions/notifyActions";
-import { addCategories, updateCategories } from "../../services/ReportedPostServices";
-import messageCode from "../../utils/messageCode";
 import { createManagerAccount, updateManagerAccount } from "../../services/admin/AccountService";
+import messageCode from "../../utils/messageCode";
 
 
 const useStyles = makeStyles(theme => ({
@@ -63,6 +58,7 @@ const ManagerPopUp = (props) => {
             setManagerPopUp({...managerPopUp, isOpen: false})
           }
           else {
+            setManagerPopUp({...managerPopUp, isOpen: false})
             dispatch(notifyError(messageCode(res.messageCode)))
         }
         setManagerPopUp({...managerPopUp, isOpen: false})
@@ -71,16 +67,30 @@ const ManagerPopUp = (props) => {
       })
      } 
      else {
-      updateManagerAccount(managerPopUp.id,password).then(res =>{
+      if(password !== cpassword ||  !password  || !cpassword ) {
+        setError({...error,isError : true}) 
+        setLoading(false)
+        return;
+    }
+       updateManagerAccount(managerPopUp.id,password).then( res =>{
         if(res.statusCode === 200) {
           setManagerPopUp({...managerPopUp, isOpen: false})
           dispatch(notifySuccessfully('Updated Account password !'))
+          setPassword("")
+    setCPassword("")
+    setError({
+      ...error,
+      isError : false
+    })
         } else {
           setManagerPopUp({...managerPopUp, isOpen: false})
           dispatch(notifyError(messageCode(res.messageCode)))
+          setPassword("")
+    setCPassword("")
         }
       })
     }
+    
       setLoading(false)
     }
     
@@ -90,7 +100,13 @@ const ManagerPopUp = (props) => {
       ...managerPopUp,
       isOpen: false,
     });
-  };
+    setPassword("")
+    setCPassword("")
+    setError({
+      ...error,
+      isError : false
+    })
+  };  
 
   const classes = useStyles()
 

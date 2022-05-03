@@ -16,6 +16,11 @@ const ManagerAccount = () => {
   const [pageSize,setPageSize] = useState(5)
   const [q,setQ] = useState()
   const [totalrow,setTotalrow] = useState(0)
+  const [managerPopUp,setManagerPopUp] = useState({
+    isOpen:false,
+    type:'create'
+  })
+
 
   useEffect(() => {
     getManagerAccountList(q,3,pageSize,page).then(res => {
@@ -29,7 +34,7 @@ const ManagerAccount = () => {
     }).catch(err => {
       console.log('something wrong getting manager account list :' + err)
     })
-  },[])
+  },[managerPopUp.isOpen])
   const columns =[
     {
       field: "id",
@@ -67,7 +72,8 @@ const ManagerAccount = () => {
         return (
                  <IconButton
                     // disabled={true}
-                    onClick={()=> setManagerPopUp({
+                    onClick={()=> 
+                      setManagerPopUp({
                         isOpen : true,
                         type:'update',
                         id: params.row.id
@@ -80,11 +86,7 @@ const ManagerAccount = () => {
       },
     },
   ]
-  const [managerPopUp,setManagerPopUp] = useState({
-    isOpen:false,
-    type:'create'
-  })
-
+  
   
 
   if( data === null) return (

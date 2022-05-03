@@ -22,7 +22,7 @@ export const createManagerAccount = async (name,password) => {
     return await axiosApiInstance
     .post(BASE_URL.createManagerAccount, {
             user_name: name,
-            user_email : "123@gmail.com",
+            user_email : password+"123@gmail.com",
             user_password : password,
     }
     )
@@ -50,14 +50,16 @@ export const updateManagerAccount = async (id,password) => {
 
 export const changeAIStatus = async (status) => {
     return await axiosApiInstance
-    .post(BASE_URL.changeAIStatus
-      , {
-            status: status,
+    .get(BASE_URL.changeAIStatus,{
+
+      params: {
+        status : status
+      }
     }
     )
     .then((res) => {
       return res.data;
-    })
+    }) 
     .catch((err) => {
       console.log("Change AI status  error :" + err);
     });

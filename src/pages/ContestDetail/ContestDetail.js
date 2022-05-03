@@ -1,46 +1,47 @@
+import { Box, Chip, FormControl, MenuItem, Tooltip } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
-import { Divider, IconButton, Stack } from "@mui/material"
+import { RemoveCircleOutline } from "@mui/icons-material";
+import CheckIcon from '@mui/icons-material/Check';
+import EditIcon from '@mui/icons-material/Edit';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { Button, Divider, IconButton, Select, Stack } from "@mui/material";
+import moment from 'moment';
 import PropTypes from "prop-types";
-
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import altAvatar from "../../asset/image/image.png";
+import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
+import GridCellExpand from "../../components/GridCellExpand";
+import PostDetail from "../../components/PostDetail/PostDetail";
+import PostDetailPopUp from "../../components/PostDetailPopUp/PostDetailPopUp";
+import "../../components/PostList/PostList.css";
+import { usePrizeSearch } from "../../hooks/usePrizeSearch";
+import { notifyError, notifySuccessfully } from "../../redux/actions/notifyActions";
 import {
   activeContest,
   finishContest,
-  getContestDetail,
-  getContestUser,
-  getPageContestPost,
+  getContestDetail, getPageContestPost,
   setAwardforUserInContest,
   updateContest,
   updateContestPrizes,
-  updateStatusPost,
+  updateStatusPost
 } from "../../services/ContestService";
-import "../Contest/Contest.css";
-import "../Account/Account.css";
-import "./ContestDetail.css";
-import "../../components/PostList/PostList.css";
-import { convertDateTime, handleTimeLeft } from "../../utils/tool";
-import altAvatar from "../../asset/image/image.png";
-import BASE_URL from "../../utils/Url";
-import PostDetailPopUp from "../../components/PostDetailPopUp/PostDetailPopUp";
-import PostDetail from "../../components/PostDetail/PostDetail";
 import { getPostDetail } from "../../services/PostService";
-import { useDispatch } from "react-redux";
-import { notifyActiveContestSuccessfully, notifyError, notifyFinishContestSuccessfully, notifySuccessfully } from "../../redux/actions/notifyActions";
-import { Button, Chip, Tooltip,MenuItem ,  Box, FormControl} from "@material-ui/core";
-import {Select } from '@mui/material'
-import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-import ConfirmDialog from "../../components/ConfirmDialog/ConfirmDialog";
 import { getMessageCode } from "../../utils/contanst";
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import EditIcon from '@mui/icons-material/Edit';
-import moment from 'moment'
-import { RemoveCircle, RemoveCircleOutline, Rtt } from "@mui/icons-material";
-import { usePrizeSearch } from "../../hooks/usePrizeSearch";
-import CheckIcon from '@mui/icons-material/Check';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import GridCellExpand from "../../components/GridCellExpand";
 import messageCode from "../../utils/messageCode";
+import { handleTimeLeft } from "../../utils/tool";
+import BASE_URL from "../../utils/Url";
+import "../Account/Account.css";
+import "../Contest/Contest.css";
+import "./ContestDetail.css";
+import first from '../../asset/image/first.png'
+import second from '../../asset/image/second.png'
+import third from '../../asset/image/third.png'
+import cup from '../../asset/image/medal.png'
+
 
 const ContestDetail = (props) => {
   const [users, setUsers] = useState([]);
@@ -464,8 +465,9 @@ const ContestDetail = (props) => {
         >
             {
               getMessageCode(data.status) === 'Request' &&
-          <Tooltip title="Active this contest">
+          <Tooltip title="Active this contest now">
               <Button
+              color="success"
               variant="contained"
               // disabled={data.contest_active === 1 ? false : true}
               onClick={() => setConfirmDialog({
@@ -482,17 +484,22 @@ const ContestDetail = (props) => {
             {
               getMessageCode(data.status) === 'Present' && data.contest_active === 0 &&
               <Tooltip title="Finish this contest immediately">
-            <Button variant="contained"
-              onClick={() => setConfirmDialog({
-                isOpen: true,
-                title: "Are your sure you want to finish this contest immediately",
-                subTitle: "Your actions will make user no longer posting posts !",
-                onConfirm : () => finishContestManually()
-              })}
-              >Finish</Button>
+            <Button
+            variant="contained"
+            style={{backgroundColor:'#FA953A'}}  
+             onClick={() => setConfirmDialog({
+              isOpen: true,
+              title: "Are your sure you want to finish this contest immediately",
+              subTitle: "Your actions will make user no longer posting posts !",
+              onConfirm : () => finishContestManually()
+            })}>
+           Finish
+            </Button>
           </Tooltip>
+
           
             }
+            
         </div>
             <Divider />
         <div className="detailShowing">
@@ -767,11 +774,11 @@ const ContestDetail = (props) => {
           </FormControl>
         </Box>
         <div style={{position:'absolute',top:0, right:'0.5rem'}}>
-            { (data.isPrized === 0  && data.contest_active === 1) &&
+            { (data.isPrized === 0  && data.contest_active === 1 && pagePosts.length !== 0 && status === 3) &&
               <>
               {
               !isSetAward ?
-              <Button variant="contained" sx={{color:'yellow'}} size='small' onClick={() => setIsSetAward(true)}>Set Prize</Button>
+              <Button variant="contained" sx={{backgroundColor:'#FA953A'}} size='small' onClick={() => setIsSetAward(true)}>Set Prize</Button>
           : 
           <>
             <Button
@@ -838,12 +845,23 @@ const ContestDetail = (props) => {
       <div>
         <div className="post-list-wrapper">
           <div className="topPostWrapper">
-            <div className="title"><EmojiEventsIcon/> Top post get prize : </div>
+            <div className="title"><EmojiEventsIcon/> Top post  : </div>
             <div className="topPost">
               {
                 (data.top_ThreePosts && data.isPrized === 1 ) ? (
-                  data.top_ThreePosts.map((item) => (
-                    <>
+                  data.top_ThreePosts.map((item,index) => (
+                    <div style={{display:'flex',flexDirection:'row',gap:'5rem'}}>
+
+                    <div className="top-sub">
+                      <img  src={index+1 === 1 ? first :
+                      (index+1 ===2 ? second : (
+                        index+1 === 3 ? third : (
+                          cup
+                        )
+                      ))
+                      } className="cup-img"/>
+                    Top {index+1}  
+                    </div>
                       <div
                         className="postItem"
                         onClick={(e) => handleOpenPopup(e, item)}
@@ -865,7 +883,7 @@ const ContestDetail = (props) => {
                           <FavoriteOutlinedIcon /> {item.likecount}
                         </div>
                       </div>
-                    </>
+                    </div>
                   ))
                   ) 
                 : (

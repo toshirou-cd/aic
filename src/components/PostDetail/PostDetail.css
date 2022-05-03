@@ -49,6 +49,8 @@
   align-items: center;
   font-family: "Roboto", serif;
   color: rgba(0, 0, 0, 0.87);
+  cursor: pointer;
+  text-decoration: none;
 }
 .userListImg {
   width: 40px;
