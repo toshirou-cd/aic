@@ -95,7 +95,7 @@ const Posts = (props) => {
   if(!posts || post.length === 0) return <div>Loading...</div>
   return (
     <div className="pageWrapper">
-      <form
+      {/* <form
         style={{
           display: "flex",
           justifyContent: "center",
@@ -135,7 +135,7 @@ const Posts = (props) => {
             <SearchIcon />
           </IconButton>
         </Paper>
-      </form>
+      </form> */}
         {/* {loading && 'Loading...'}
         {error && 'Error...'} */}
 

@@ -140,7 +140,7 @@ const PostList = (props) => {
           // {...a11yProps(0)}
            >
            </Tab>
-          <Tab label={`Contest Posts`} 
+          <Tab label={`Poll Posts`} 
           // {...a11yProps(1)} 
           />
         </Tabs>

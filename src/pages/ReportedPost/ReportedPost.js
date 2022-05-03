@@ -59,6 +59,8 @@ const ReportedPost = (props) => {
       headerName: "ID",
       width: 70,
       sortable : false,
+      headerAlign:'center',
+      align:'center',
       renderCell : params => (
         posts.map(post => post.report_id).indexOf(params.row.report_id) + 1
       )
@@ -70,19 +72,26 @@ const ReportedPost = (props) => {
       width: 150,
     },
     {
-      field: "post_id",
-      headerName: "Post ID",
+      field: "description",
+      headerName: "Description",
+      sortable:false,
+      headerAlign:'center',
       width: 150,
     },
     {
       field: "count_report",
       headerName: "Report times",
+      headerAlign:'center',
       sortable : false,
+      align:'center',
       width: 150,
     },
     {
       field: "date_create",
       headerName: "Date Report ",
+      sortable:false,
+      headerAlign:'center',
+      align:'center',
       width: 170,
       renderCell : params => (
         convertDateTime(params.row.date_create)
@@ -91,6 +100,8 @@ const ReportedPost = (props) => {
     {
       field: "date_accept",
       headerName: "Date Proccess",
+      headerAlign:'center',
+      align:'center',
       sortable: false,
       width: 170,
       renderCell : (params) => {
@@ -132,6 +143,9 @@ const ReportedPost = (props) => {
     {
       field: "id",
       headerName: "Order",
+      align:"center",
+      sortable:false,
+      headerAlign:'center',
       width: 100,
       renderCell: (params) =>
       categoryList.map((categories) => categories.id).indexOf(params.row.id) + 1,
